@@ -1,8 +1,8 @@
 # ESI Design
 
-This document describes the design of ESI a baremetal leasing and provisioning service that is the proposed replacement for HIL/BMI. Requirements can be found here: [https://docs.google.com/document/d/1vFLR-ymWYlR7acyH_NQa_Nr6xsrjoaDZv6klF6azV3M/edit#](https://docs.google.com/document/d/1vFLR-ymWYlR7acyH_NQa_Nr6xsrjoaDZv6klF6azV3M/edit#)
+This document describes the design of ESI a baremetal leasing and provisioning service that is the proposed replacement for HIL/BMI. Requirements are described in [a separate document](esi-requirements.md).
 
-The primary goals of this architecture are the following:
+The primary goals of this architecture are:
 
 * Enforce project isolation in the usage of baremetal nodes and their associated components (networks, volumes, etc)
 
@@ -96,24 +96,24 @@ Future phases will build upon this initial work, focusing on:
 
 # Operations
 
-This section describes the operations that ESI will support. Each operation is tagged with a color:
+This section describes the operations that ESI will support. Each operation is tagged to indicate the development state of that feature using one of the following tags:
 
 <table>
   <tr>
-    <td> </td>
-    <td>Supported</td>
+    <td>😀</td>
+    <td>Operation is supported by existing code</td>
   </tr>
   <tr>
-    <td></td>
-    <td>Unsupported, but requirements are known</td>
+    <td>🙂</td>
+    <td>Operation is unsupported, but requirements are known</td>
   </tr>
   <tr>
-    <td></td>
-    <td>Research needed</td>
+    <td>🤔</td>
+    <td>Additional research is required to determine the state of this operation</td>
   </tr>
   <tr>
-    <td></td>
-    <td>Future Development</td>
+    <td>😬</td>
+    <td>This operation will be part of future development work</td>
   </tr>
 </table>
 
@@ -141,21 +141,21 @@ ESI is constructed entirely from OpenStack services; as a result, we can rely on
     <td>OpenStack Command</td>
   </tr>
   <tr>
-    <td> </td>
+    <td>😀</td>
     <td>Keystone</td>
     <td>Admin</td>
     <td>Create a project</td>
     <td>openstack project create</td>
   </tr>
   <tr>
-    <td></td>
+    <td>😀</td>
     <td>Keystone</td>
     <td>Admin</td>
     <td>Create a user</td>
     <td>openstack user create</td>
   </tr>
   <tr>
-    <td></td>
+    <td>😀</td>
     <td>Keystone</td>
     <td>Admin</td>
     <td>Assign users to a project</td>
@@ -178,14 +178,14 @@ After an Admin adds a baremetal node to inventory, an Admin can directly assign 
     <td>OpenStack Command</td>
   </tr>
   <tr>
-    <td> </td>
+    <td>😀</td>
     <td>Ironic</td>
     <td>Admin</td>
     <td>Add/remove a node from inventory</td>
     <td>openstack baremetal node create/delete</td>
   </tr>
   <tr>
-    <td></td>
+    <td>🙂</td>
     <td>Ironic</td>
     <td>Admin</td>
     <td>Assign node to a project</td>
@@ -193,7 +193,7 @@ After an Admin adds a baremetal node to inventory, an Admin can directly assign 
 Ironic needs to respect owner field</td>
   </tr>
   <tr>
-    <td></td>
+    <td>🤔</td>
     <td>Ironic</td>
     <td>Admin</td>
     <td>Unassign node from a project</td>
@@ -215,7 +215,7 @@ In the future we will develop a leasing service that builds upon Ironic’s isol
     <td>OpenStack Command</td>
   </tr>
   <tr>
-    <td></td>
+    <td>😬</td>
     <td>(Leasing)</td>
     <td>Owner</td>
     <td>Create an offer for a node</td>
@@ -223,14 +223,14 @@ In the future we will develop a leasing service that builds upon Ironic’s isol
 We need an option to disable ‘owner’ checking</td>
   </tr>
   <tr>
-    <td></td>
+    <td>😬</td>
     <td>(Leasing)</td>
     <td>User</td>
     <td>View available offers</td>
     <td>Leasing service needs a CLI</td>
   </tr>
   <tr>
-    <td></td>
+    <td>😬</td>
     <td>(Leasing)</td>
     <td>User</td>
     <td>Create a contract for a node</td>
@@ -239,21 +239,21 @@ Is there a way to specify max-contract time?
 Is it okay to skip the bid/matcher process?</td>
   </tr>
   <tr>
-    <td></td>
+    <td>😬</td>
     <td>(Leasing)</td>
     <td>User</td>
     <td>View contracted nodes</td>
     <td>Leasing service needs a CLI</td>
   </tr>
   <tr>
-    <td></td>
+    <td>😬</td>
     <td>(Leasing)</td>
     <td>Owner</td>
     <td>Cancel a contract</td>
     <td>Leasing service needs a CLI</td>
   </tr>
   <tr>
-    <td></td>
+    <td>😬</td>
     <td>(Leasing)</td>
     <td>Owner</td>
     <td>Cancel an offer</td>
@@ -280,14 +280,14 @@ ESI allows Admins to create public networks that can be used by any User. It als
     <td>OpenStack Command</td>
   </tr>
   <tr>
-    <td></td>
+    <td>😀</td>
     <td>Neutron</td>
     <td>Admin</td>
     <td>Create public network</td>
     <td>openstack network create --share</td>
   </tr>
   <tr>
-    <td></td>
+    <td>🤔</td>
     <td>Neutron</td>
     <td>User</td>
     <td>Create a project network from a pool of valid VLANs allocated by Admin</td>
@@ -296,7 +296,7 @@ Do we need to lock some options (--share)?
 Much may be covered by policy - for example, by default, non-admins cannot created shared networks</td>
   </tr>
   <tr>
-    <td></td>
+    <td>😀</td>
     <td>Neutron</td>
     <td>User</td>
     <td>Grant access to a project network to another project</td>
@@ -305,7 +305,7 @@ openstack network rbac create --target-project <project> --action access_as_shar
 Need to be careful what API is exposed to ‘shared’ projects: https://docs.openstack.org/ocata/config-reference/networking/samples/policy.json.html</td>
   </tr>
   <tr>
-    <td></td>
+    <td>🙂</td>
     <td>Neutron</td>
     <td>Admin</td>
     <td>Configure network switches</td>
@@ -328,14 +328,14 @@ ESI also allows Admins to create images that can be used by any User. Users can 
     <td>OpenStack Command</td>
   </tr>
   <tr>
-    <td></td>
+    <td>😀</td>
     <td>Glance</td>
     <td>Admin</td>
     <td>Create images, public and private</td>
     <td>openstack image create --public/private</td>
   </tr>
   <tr>
-    <td></td>
+    <td>😀</td>
     <td>Glance</td>
     <td>Admin</td>
     <td>Share image with a User</td>
@@ -344,14 +344,14 @@ openstack image add project <image id> <project>
 <project> user runs: openstack image set --accept <image id></td>
   </tr>
   <tr>
-    <td></td>
+    <td>😀</td>
     <td>Glance</td>
     <td>User</td>
     <td>Create project image</td>
     <td>Note that some options, such as creating a public image, are locked from non-admins by default</td>
   </tr>
   <tr>
-    <td></td>
+    <td>😀</td>
     <td>Glance</td>
     <td>User</td>
     <td>Grant access to a project image to another project</td>
@@ -377,7 +377,7 @@ Once that is done, the provisioning workflow is controlled by the User and can o
     <td>OpenStack Command</td>
   </tr>
   <tr>
-    <td></td>
+    <td>🤔</td>
     <td>Nova</td>
     <td>User</td>
     <td>Provision a node</td>
@@ -398,28 +398,28 @@ Future work allows a User further flexibility through OpenStack APIs:
     <td>OpenStack Command</td>
   </tr>
   <tr>
-    <td></td>
+    <td>😬</td>
     <td>Cinder</td>
     <td>Service</td>
     <td>Set up ISCSI target (backed by Ceph RBD) for nodes to boot from</td>
     <td>BMI automatically does this when user starts to provision their leased node</td>
   </tr>
   <tr>
-    <td></td>
+    <td>😬</td>
     <td>Ironic</td>
     <td>User</td>
     <td>Set boot device of a leased node (PXE or disk)</td>
     <td>Need to research this</td>
   </tr>
   <tr>
-    <td></td>
+    <td>😬</td>
     <td>Ironic</td>
     <td>User</td>
     <td>Boot a leased node from an image or snapshot</td>
     <td>Lars has done this, need to replicate</td>
   </tr>
   <tr>
-    <td></td>
+    <td>😬</td>
     <td>Ironic</td>
     <td>User</td>
     <td>Connect a project network to a leased node’s NIC</td>
@@ -429,7 +429,7 @@ openstack baremetal node vif attach
 Need to add support for flexible Ironic policies around Ironic port and node VIF APIs</td>
   </tr>
   <tr>
-    <td></td>
+    <td>😬</td>
     <td>Cinder</td>
     <td>User</td>
     <td>Boot leased node from volume</td>
@@ -437,14 +437,14 @@ Need to add support for flexible Ironic policies around Ironic port and node VIF
 ot-from-volume.html ??</td>
   </tr>
   <tr>
-    <td></td>
+    <td>😬</td>
     <td>Glance/ Nova</td>
     <td>User</td>
     <td>Provision image to leased node and boot it from local disk</td>
     <td></td>
   </tr>
   <tr>
-    <td></td>
+    <td>😬</td>
     <td>Ironic</td>
     <td>User</td>
     <td>Attach network to node and power it on</td>
@@ -472,7 +472,7 @@ Maintenance operations provide various utilities for a User:
     <td>OpenStack Command</td>
   </tr>
   <tr>
-    <td></td>
+    <td>🙂</td>
     <td>Ironic</td>
     <td>User</td>
     <td>Control power state of leased node</td>
@@ -480,7 +480,7 @@ Maintenance operations provide various utilities for a User:
 Requires owner policy spec to be implemented</td>
   </tr>
   <tr>
-    <td></td>
+    <td>🤔</td>
     <td>Ironic</td>
     <td>User</td>
     <td>View serial console of a leased node (read only)</td>
@@ -488,14 +488,14 @@ Requires owner policy spec to be implemented</td>
 Is it sufficient?</td>
   </tr>
   <tr>
-    <td></td>
+    <td>🤔</td>
     <td>Ironic/ Glance</td>
     <td>User</td>
     <td>Create image from a leased, provisioned node</td>
     <td>Unknown</td>
   </tr>
   <tr>
-    <td></td>
+    <td>🤔</td>
     <td>Cinder</td>
     <td>User</td>
     <td>Create snapshot from boot volume</td>
@@ -513,4 +513,3 @@ OpenStack has a host of configuration and deployment options. ESI will include d
 OpenStack’s rich suite of APIs can be difficult to navigate, especially for people with little OpenStack experience. In order to alleviate that issue we will create a usage guide that highlights the OpenStack commands needed for common workflows.
 
 In addition, if it is common practice to run a series of OpenStack commands for a particular workflow, we may wrap those commands in a shell script or Ansible playbook to allow for streamlined usage.
-
