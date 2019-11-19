@@ -26,3 +26,10 @@ Keylime provides attestation — that is, assurance that a given baremetal node 
 ## Nova: Baremetal filters that are aware of Ironic multi-tenancy
 
 Nova interacts with Ironic as a user with administrative privileges, which means it is able to provision any available baremetal node. Nova needs to be aware of Ironic's multi-tenant features so that it only attempt to use baremetal nodes that belong to the tenant initiating the provisioning request with Nova.
+
+## Ansible network: Additional switch drivers
+
+We will need additional switch drivers to support our ESI test environment. A driver for our Nexus switches has been submitted as [PR #37][] against the [Network-Runner][] project.
+
+[pr #37]: https://github.com/ansible-network/network-runner/pull/37
+[network-runner]: https://github.com/ansible-network/network-runner
