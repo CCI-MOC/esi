@@ -433,8 +433,7 @@ Need to add support for flexible Ironic policies around Ironic port and node VIF
     <td>Cinder</td>
     <td>User</td>
     <td>Boot leased node from volume</td>
-    <td>?? https://docs.openstack.org/ironic/pike/admin/bo
-ot-from-volume.html ??</td>
+    <td>?? https://docs.openstack.org/ironic/pike/admin/boot-from-volume.html ??</td>
   </tr>
   <tr>
     <td>😬</td>
