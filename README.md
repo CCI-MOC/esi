@@ -12,10 +12,13 @@ We want to create a set of services/systems to permit multiple tenants to flexib
 [reqs]: docs/esi-requirements.md
 [upstream]: docs/upstream-features.md
 
-## Contact
+## Contact and Contribution
 
 You can contact the ESI development team on the Freenode `#moc` IRC channel.
 
 You are welcome to open issues or submit pull requests concerning our documentation via the [GitHub repository][gh].
 
+We are currently tracking project tasks on [our Trello board][trello].
+
 [gh]: https://github.com/CCI-MOC/esi
+[trello]: https://trello.com/b/1MDt78E9/esi-trask-tracking
