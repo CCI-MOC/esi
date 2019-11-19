@@ -6,9 +6,10 @@ Some ESI features will require enhancement to upstream OpenStack projects.
 
 ESI requires multi-tenant support in Ironic to meet our basic functionality. This enables a tenant to “own” a baremetal node — that is, to have exclusive access to it — without requiring administrative privileges.
 
-An initial implementation of this feature has merged as [If08586f3e9705dd38ff83e4b500d9ee3cd45bce3][].
+An initial implementation of this feature has merged as [If08586f3e9705dd38ff83e4b500d9ee3cd45bce3][]. There is a detailed description of the change available in the [associated blueprint][I1e898f7b9791aa579a733996711945e273ef6a4a].
 
 [If08586f3e9705dd38ff83e4b500d9ee3cd45bce3]: https://review.opendev.org/#/q/If08586f3e9705dd38ff83e4b500d9ee3cd45bce3
+[I1e898f7b9791aa579a733996711945e273ef6a4a]: https://review.opendev.org/#/q/I1e898f7b9791aa579a733996711945e273ef6a4a
 
 ## Ironic: Improved serial console support
 
