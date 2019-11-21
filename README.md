@@ -7,10 +7,12 @@ We want to create a set of services/systems to permit multiple tenants to flexib
 - The [requirements document][reqs] describes the basic requirements of the ESI project.
 - The [design document][design] describes how are are implementing those requirements.
 - The [upstream features][upstream] document describes changes we will need to make in upstream projects to support those requirements or to allow an upstream project to take advantage of ESI.
+- The [deployment document][deployment] describes a method of deploying and configuring ESI.
 
 [design]: docs/esi-design.md
 [reqs]: docs/esi-requirements.md
 [upstream]: docs/upstream-features.md
+[deployment]: docs/deployment.md
 
 ## Contact and Contribution
 
