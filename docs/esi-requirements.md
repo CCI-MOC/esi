@@ -36,7 +36,11 @@ This section describes the features and functions of HIL and BMI services. HIL s
 
     * Admins
 
-        * Create public networks
+        * Add a pool of networks to HIL
+
+        * Create public networks (from the pool)
+
+        * Import networks outside of the standard allocation pool.
 
         * Assign nodes to a project
 
@@ -49,6 +53,8 @@ This section describes the features and functions of HIL and BMI services. HIL s
         * Lease a node for their project
 
         * Create a project network
+
+        * View all networks accessible by their project automatically (private and public).
 
         * Grant access to a project network to other projects
 
@@ -66,17 +72,19 @@ This section describes the features and functions of HIL and BMI services. HIL s
 
         * Sets up iSCSI targets (backed by Ceph RBD) for nodes to boot from; this is automatically done when a user issues a command to provision their leased nodes
 
+        * Note: The BMI codebase/documentation refers to rbd volumes as images. Those are not the same as openstack images.
+
     * Admins
 
-        * Create images (public and non-public)
-
-        * Add images to a user’s project
+        * Import bootable volumes from storage (ceph) into user's projects. This creates a deep copy of the volumes for the project and are immutable.
 
     * Users
 
-        * Create a snapshot of a leased node
+        * Boot a leased node from a shallow clone of a volume in their project. The original volume in their project is never attached to a node.
 
-        * Boot a leased node from an image or a snapshot
+        * Snapshot the shallow clones of the volumes from which a node is booted from. These snapshots are flattened and immutable.
+
+        * Boot other leased nodes from shallow clones of the snapshots.
 
 Both BMI and HIL use custom databases to keep track of ownership of images, networks, nodes, etc.
 
