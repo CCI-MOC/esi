@@ -28,11 +28,13 @@ This project is largely following the vision described in the follow papers:
 - The [design document][design] describes how are are implementing those requirements.
 - The [upstream features][upstream] document describes changes we will need to make in upstream projects to support those requirements or to allow an upstream project to take advantage of ESI.
 - The [deployment document][deployment] describes a method of deploying and configuring ESI.
+- The [usage document][usage] lists common commands used by administrators and users.
 
 [design]: docs/esi-design.md
 [reqs]: docs/esi-requirements.md
 [upstream]: docs/upstream-features.md
 [deployment]: docs/deployment.md
+[usage]: docs/usage.md
 
 ## Contact and Contribution
 
