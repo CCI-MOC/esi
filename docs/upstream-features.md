@@ -19,9 +19,14 @@ In an ESI-managed environment, out-of-band management will happen primarily via 
 
 In the future, we would like an OpenStack operator to be able to lease nodes from an ESI instance and then add these to a local Ironic as baremetal nodes. This will require Ironic to be able to interact with baremetal nodes via the Ironic API, rather than using IPMI.
 
-## Ironic: Keylime support
+## Ironic: Attestation support with Keylime
 
-Keylime provides attestation — that is, assurance that a given baremetal node has not been tampered with. We would like to integrate this into the Ironic provisioning workflow such that prior to provisioning a node Ironic will run it through an attestation step, and will fail the node if the attestation fails.
+[Keylime][] provides attestation — that is, assurance that a given baremetal node has not been tampered with. We would like to integrate this into the Ironic provisioning workflow such that prior to provisioning a node Ironic will run it through an attestation step, and will fail the node if the attestation fails.
+
+Keylime is fully described in the paper "[Bootstrapping and Maintaining Trust in the Cloud][tci-acm]".
+
+[keylime]: https://github.com/keylime/keylime
+[tci-acm]: https://github.com/keylime/keylime/blob/master/doc/tci-acm.pdf
 
 ## Nova: Baremetal filters that are aware of Ironic multi-tenancy
 
