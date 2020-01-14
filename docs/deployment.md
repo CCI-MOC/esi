@@ -12,6 +12,15 @@ ESI requires Ironic code that is currently only present in the master branch. Fo
 sudo -E tripleo-repos current-tripleo-dev
 ```
 
+and then install the tripleoclient and generate a file with the default ContainerImagePrepare value
+
+```
+sudo yum install -y python-tripleoclient
+
+openstack tripleo container image prepare default \
+  --output-env-file $HOME/containers-prepare-parameters.yaml
+```
+
 ## Ironic Configuration
 
 Standalone TripleO requires the following configuration changes in order to deploy Ironic.
@@ -23,7 +32,7 @@ resource_registry:
   OS::TripleO::Services::NovaCompute: OS::Heat::None
 
 parameter_defaults:
-  NeutronMechanismDrivers: [openvswitch, baremetal]
+  NeutronMechanismDrivers: [ovn, baremetal]
   IronicEnabledHardwareTypes:
   - ipmi
   IronicEnabledPowerInterfaces:
@@ -36,6 +45,50 @@ parameter_defaults:
   IronicInspectorInterface: 'br-ctlplane'
 ```
 
+A sample `standalone_parameters.yaml` file with all other parameters looks like this.
+Note that `NeutronMechanismDrivers` is set to `ovn` and `baremetal`.
+
+```
+# Generated with the following on 2019-12-13T18:45:19.996790
+#
+#   openstack tripleo container image prepare default --output-env-file /home/centos/containers-prepare-parameters.yaml
+#
+
+resource_registry:
+  OS::TripleO::Services::NovaCompute: OS::Heat::None
+
+parameter_defaults:
+  NeutronMechanismDrivers: [ovn, baremetal]
+  IronicEnabledHardwareTypes:
+  - ipmi
+  IronicEnabledPowerInterfaces:
+  - ipmitool
+  IronicEnabledManagementInterfaces:
+  - ipmitool
+  IronicCleaningDiskErase: 'metadata'
+  IronicInspectorSubnets:
+  - ip_range: 192.168.1.200,192.168.1.250
+  IronicInspectorInterface: 'br-ctlplane'
+  CloudName: 192.168.24.14
+  ControlPlaneStaticRoutes: []
+  Debug: true
+  DeploymentUser: $USER
+  DnsServers:
+    - 1.1.1.1
+    - 8.8.8.8
+  DockerInsecureRegistryAddress:
+    - 192.168.24.14:8787
+  NeutronPublicInterface: eth1
+  NeutronDnsDomain: localdomain
+  NeutronBridgeMappings: datacentre:br-ctlplane
+  NeutronPhysicalBridge: br-ctlplane
+  StandaloneEnableRoutedNetworks: false
+  StandaloneHomeDir: /home/centos
+  InterfaceLocalMtu: 1500
+  # Needed if running in a VM, not needed if on baremetal
+  NovaComputeLibvirtType: qemu
+```
+
 ## Deployment
 
 When running `openstack tripleo deploy`, add a reference to the following environment files:
@@ -43,7 +96,8 @@ When running `openstack tripleo deploy`, add a reference to the following enviro
 ```
   -e /usr/share/openstack-tripleo-heat-templates/environments/services/ironic.yaml
   -e /usr/share/openstack-tripleo-heat-templates/environments/services/ironic-inspector.yaml
-  -e /usr/share/openstack-tripleo-heat-templates/environments/services/neutron-ovs.yaml
+  -e /usr/share/openstack-tripleo-heat-templates/environments/services/neutron-ovn-standalone.yaml
+  -e /usr/share/openstack-tripleo-heat-templates/environments/services/neutron-ml2-ansible.yaml
 ```
 
 A full deploy command might look like the following:
@@ -55,7 +109,8 @@ sudo openstack tripleo deploy \
   -e /usr/share/openstack-tripleo-heat-templates/environments/standalone/standalone-tripleo.yaml \
   -e /usr/share/openstack-tripleo-heat-templates/environments/services/ironic.yaml \
   -e /usr/share/openstack-tripleo-heat-templates/environments/services/ironic-inspector.yaml \
-  -e /usr/share/openstack-tripleo-heat-templates/environments/services/neutron-ovs.yaml \
+  -e /usr/share/openstack-tripleo-heat-templates/environments/services/neutron-ovn-standalone.yaml \
+  -e /usr/share/openstack-tripleo-heat-templates/environments/services/neutron-ml2-ansible.yaml \
   -r /usr/share/openstack-tripleo-heat-templates/roles/Standalone.yaml \
   -e $HOME/containers-prepare-parameters.yaml \
   -e $HOME/standalone_parameters.yaml \
