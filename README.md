@@ -2,6 +2,17 @@
 
 We want to create a set of services/systems to permit multiple tenants to flexibly allocate baremetal machines from a pool of available hardware, create networks, attach baremetal nodes and networks, and to optionally provision an operating system on those systems through the use of an associated provisioning service.
 
+## Where's the code?
+
+The code comprising ESI exists in a number of different places. Our primary focus to date has been adding multi-tenant support to OpenStack Ironic:
+
+- [openstack/ironic](https://github.com/openstack/ironic)
+
+We have some additional code hosted on GitHub:
+
+- [python-esiclient](https://github.com/CCI-MOC/python-esiclient)
+- [esi-leap](https://github.com/cci-moc/esi-leap)
+
 ## References
 
 This project is largely following the vision described in the follow papers:
