@@ -36,6 +36,24 @@ parameter_defaults:
   IronicInspectorInterface: 'br-ctlplane'
 ```
 
+## Ansible Networking Configuration
+
+If your deployment requires switch management, add/update these parameters in `standalone_parameters.yaml`:
+
+```
+parameter_defaults:
+  NeutronMechanismDrivers: [ansible, openvswitch, baremetal]             # order matters; ansible must be first
+  NeutronNetworkVLANRanges: datacentre:<vlan start>:<vlan end>           # ex: datacenter:100:150
+  ML2HostConfigs:
+    switch1:
+      ansible_network_os: <switch os>
+      ansible_host: <switch host>
+      ansible_user: <switch user>
+      ansible_ssh_pass: <switch password>
+      manage_vlans: true
+      mac: <switch mac>
+```
+
 ## Deployment
 
 When running `openstack tripleo deploy`, add a reference to the following environment files:
@@ -44,6 +62,12 @@ When running `openstack tripleo deploy`, add a reference to the following enviro
   -e /usr/share/openstack-tripleo-heat-templates/environments/services/ironic.yaml
   -e /usr/share/openstack-tripleo-heat-templates/environments/services/ironic-inspector.yaml
   -e /usr/share/openstack-tripleo-heat-templates/environments/services/neutron-ovs.yaml
+```
+
+If you are using ansible networking, add the following:
+
+```
+  -e /usr/share/openstack-tripleo-heat-templates/environments/services/neutron-ml2-ansible.yaml
 ```
 
 A full deploy command might look like the following:
@@ -56,6 +80,7 @@ sudo openstack tripleo deploy \
   -e /usr/share/openstack-tripleo-heat-templates/environments/services/ironic.yaml \
   -e /usr/share/openstack-tripleo-heat-templates/environments/services/ironic-inspector.yaml \
   -e /usr/share/openstack-tripleo-heat-templates/environments/services/neutron-ovs.yaml \
+  -e /usr/share/openstack-tripleo-heat-templates/environments/services/neutron-ml2-ansible.yaml \
   -r /usr/share/openstack-tripleo-heat-templates/roles/Standalone.yaml \
   -e $HOME/containers-prepare-parameters.yaml \
   -e $HOME/standalone_parameters.yaml \
@@ -69,29 +94,24 @@ After deploying Standalone TripleO, there are a few post-deployment configuratio
 
 ### Ironic Policy
 
-The Ironic policy file must be updated if you intend for non-admins to use the Ironic API. Access
-for single-node API fuctions is granted through the use of the ``is_node_owner`` role, which applies
-to a project specified by a node's ``owner`` field. Access to ``baremetal:node:list`` can safely be
-opened to all, as that API call will filter results for non-admins by owner. Access to
-``baremetal:node:create`` should not be exposed to non-admins.
+The Ironic policy file must be updated if you intend for non-admins to use the Ironic API. Access for single-node API functions is granted through the use of the ``is_node_owner`` and ``is_node_lessee` roles, which apply to a project specified by a node's ``owner`` and ``lessee`` field respectively. Further detail can be found in the upstream [node multi-tenancy documentation](https://docs.openstack.org/ironic/latest/admin/node-multitenancy.html)
 
-For example, if you would like to update the default Ironic policy settings to allow non-admins to be
-able to list/get/set the power state of nodes that they own, update the Ironic policy file as follows:
+This repository includes a sample Ironic policy file that enables node owners to manage their nodes and node lessees to provision their leased nodes. It can be found at [/etc/ironic/policy.json.sample](/etc/ironic/policy.json.sample).
+
+### Neutron Policy
+
+If you are using ansible networking to configure the switch, the following Neutron policy rule must be updated to allow non-admins to attach VLAN networks to their nodes:
 
 ```
-# Retrieve a single Node record
-# GET  /nodes/{node_ident}
-#"baremetal:node:get": "rule:is_admin or rule:is_observer"
-"baremetal:node:get": "rule:is_admin or rule:is_observer or role:is_node_owner"
-
-# Retrieve multiple Node records, filtered by owner
-# GET  /nodes
-# GET  /nodes/detail
-#"baremetal:node:list": "rule:baremetal:node:get"
-"baremetal:node:list": ""
-
-# Change Node power status
-# PUT  /nodes/{node_ident}/states/power
-#"baremetal:node:set_power_state": "rule:is_admin"
-"baremetal:node:set_power_state": "rule:is_admin or rule:is_node_owner"
+# Get ``provider:physical_network`` attribute of a network
+# GET  /networks
+# GET  /networks/{id}
+#"get_network:provider:physical_network": "rule:admin_only"
+"get_network:provider:physical_network": "rule:admin_or_owner or rule:shared"
 ```
+
+### Ansible Networking and Cisco Nexus Switches
+
+If you are using a Cisco Nexus switch, then you'll need an updated Ansible playbook for configuring trunk ports. It can be found at https://github.com/ansible-network/network-runner/blob/devel/etc/ansible/roles/network-runner/providers/nxos/conf_trunk_port.yaml.
+
+In addition, if you require PortFast mode, then you'll need to update the access port and trunk port Ansible playbooks to add a PortFast configuration commands whenever VLANs are added to a port: ``spanning-tree port type edge trunk``.
