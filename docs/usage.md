@@ -5,7 +5,6 @@ This document highlights OpenStack CLI commands used to perform common ESI funct
 * [Identity](#identity)
 * [Isolation](#isolation)
 * [Maintenance](#maintenance)
-* [Provisioning](#provisioning)
 
 ## <a name="identity"></a>Identity
 
@@ -58,14 +57,3 @@ The baremetal operations listed here are not available to non-administrators by 
 * **Power on assigned node:** `openstack baremetal node power on <node-id-or-name>` [[full reference](https://docs.openstack.org/python-ironicclient/latest/cli/osc/v1/index.html#baremetal-node-power-on)]
 * **Power off assigned node:** `openstack baremetal node power off <node-id-or-name>` [[full reference](https://docs.openstack.org/python-ironicclient/latest/cli/osc/v1/index.html#baremetal-node-power-off)]
 * **Reboot assigned node:** `openstack baremetal node reboot <node-id-or-name>` [[full reference](https://docs.openstack.org/python-ironicclient/latest/cli/osc/v1/index.html#baremetal-node-reboot)]
-
-## <a name="provisioning"></a>Provisioning
-
-### Administrator
-
-None
-
-### User
-
-* **Provision:** `openstack server create <options>` [[full reference](https://docs.openstack.org/python-openstackclient/latest/cli/command-objects/server.html#server-create)]
-  * Please refer to the linked CLI reference for the full list of options.
