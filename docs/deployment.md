@@ -110,6 +110,14 @@ sudo openstack tripleo deploy \
 
 After deploying Standalone TripleO, there are a few post-deployment configuration steps to consider.
 
+#### Ironic Configuration
+
+```
+# Seconds to wait for a response from a call. (integer value)
+#rpc_response_timeout = 60
+rpc_response_timeout = 120         # ml2 ansible networking increases the timeout needed
+```
+
 #### Ironic Policy
 
 The Ironic policy file must be updated if you intend for non-admins to use the Ironic API. Access for single-node API functions is granted through the use of the ``is_node_owner`` and ``is_node_lessee` roles, which apply to a project specified by a node's ``owner`` and ``lessee`` field respectively. Further detail can be found in the upstream [node multi-tenancy documentation](https://docs.openstack.org/ironic/latest/admin/node-multitenancy.html)
@@ -126,4 +134,10 @@ If you are using ansible networking to configure the switch, the following Neutr
 # GET  /networks/{id}
 #"get_network:provider:physical_network": "rule:admin_only"
 "get_network:provider:physical_network": "rule:admin_or_owner or rule:shared"
+
+# Get ``provider:segmentation_id`` attribute of a network
+# GET  /networks
+# GET  /networks/{id}
+#"get_network:provider:segmentation_id": "rule:admin_only"
+"get_network:provider:segmentation_id": "rule:admin_or_owner or rule:shared"
 ```
