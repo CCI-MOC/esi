@@ -45,6 +45,7 @@ Our code development features a mix of upstream OpenStack work and custom ESI co
 
 - [Deployment][deployment]: a method of deploying and configuring ESI
 - [Usage][usage]: common commands used by ESI administrators and users
+- [Provisioning Scenarios][provisioning-scenarios]: provisioning scenarios for nodes leased through ESI
 
 ### Planning
 
@@ -57,6 +58,7 @@ Our code development features a mix of upstream OpenStack work and custom ESI co
 [upstream]: docs/upstream-features.md
 [deployment]: docs/deployment.md
 [usage]: docs/usage.md
+[provisioning-scenarios]: docs/provisioning-scenarios.md
 
 ## References
 
