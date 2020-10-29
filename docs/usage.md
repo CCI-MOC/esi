@@ -5,6 +5,7 @@ This document highlights OpenStack CLI commands used to perform common ESI funct
 * [Identity](#identity)
 * [Isolation](#isolation)
 * [Maintenance](#maintenance)
+* [Network](#network)
 
 ## <a name="identity"></a>Identity
 
@@ -57,3 +58,14 @@ The baremetal operations listed here are not available to non-administrators by 
 * **Power on assigned node:** `openstack baremetal node power on <node-id-or-name>` [[full reference](https://docs.openstack.org/python-ironicclient/latest/cli/osc/v1/index.html#baremetal-node-power-on)]
 * **Power off assigned node:** `openstack baremetal node power off <node-id-or-name>` [[full reference](https://docs.openstack.org/python-ironicclient/latest/cli/osc/v1/index.html#baremetal-node-power-off)]
 * **Reboot assigned node:** `openstack baremetal node reboot <node-id-or-name>` [[full reference](https://docs.openstack.org/python-ironicclient/latest/cli/osc/v1/index.html#baremetal-node-reboot)]
+
+## <a name="network"></a>Network
+
+### Administrator/User
+
+* **Create network:** `openstack network create <options> <network-name>` [[full reference](https://docs.openstack.org/python-openstackclient/latest/cli/command-objects/network.html#network-create)]
+  * Please refer to the linked CLI reference for the full list of options.
+* **Create subnet:** `openstack subnet create --network <network-name> <options> <subnet-name>` [[full reference](https://docs.openstack.org/python-openstackclient/latest/cli/command-objects/subnet.html#subnet-create)]
+  * Please refer to the linked CLI reference for the full list of options.
+* **Share network:** `openstack network rbac create --action access_as_shared --type network --target-project <project-to-gain-access> <network-id-or-name>` [[full reference](https://docs.openstack.org/python-openstackclient/latest/cli/command-objects/network-rbac.html#network-rbac-create)]
+  * Please refer to the linked CLI reference for the full list of options.
