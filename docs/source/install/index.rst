@@ -10,10 +10,25 @@ Installation is simple: `install OpenStack`_, version **Ussuri** or above. Ensur
 
 The key feature that needs to be configured is `Ironic node multi-tenancy`_.
 
+Additional Patches
+------------------
+
+The following patches may be of use. Depending on your OpenStack version, they may be already included in your installation.
+
+=================== ============================================= ========================
+Repository          Patch                                         Status
+=================== ============================================= ========================
+ironic              `Allow node lessee to see node's ports`_      Released in **Victoria**
+ironic              `Allow node vif attach to specify port_uuid`_ Released in **Victoria**
+python-ironicclient `Add port-uuid parameter to node vif attach`_ Released in **Victoria**
+network-runner      `Add kwargs to trunk ports`_                  Merged upstream
+networking-ansible  `Correct port detachment`_                    Released in **Victoria**
+=================== ============================================= ========================
+
 ESI Add-Ons
 -----------
 
-Two additional ESI add-ons may be of use:
+Two additional ESI add-ons provide additional functionality:
 
 * `ESI Leap`_: baremetal node leasing service; required for ESI leasing workflow
    * `python-esileapclient`_
@@ -26,3 +41,8 @@ Instructions on installing these add-ons can be found within the linked reposito
 .. _ESI Leap: https://github.com/CCI-MOC/esi-leap
 .. _python-esileapclient: https://github.com/CCI-MOC/python-esileapclient
 .. _python-esiclient: https://github.com/CCI-MOC/python-esiclient
+.. _Allow node lessee to see node's ports: https://review.opendev.org/c/openstack/ironic/+/730366
+.. _Allow node vif attach to specify port_uuid: https://review.opendev.org/#/c/731780/
+.. _Add port-uuid parameter to node vif attach: https://review.opendev.org/#/c/737585/
+.. _Add kwargs to trunk ports: https://github.com/ansible-network/network-runner/pull/48
+.. _Correct port detachment: https://review.opendev.org/#/c/745318/
