@@ -88,6 +88,70 @@ Users can view available offers and contract a node from an offer.
 | Delete Contract | ``openstack lease contract delete <contract_uuid>``                                                      |
 +-----------------+----------------------------------------------------------------------------------------------------------+
 
+Resource Isolation and Sharing
+------------------------------
+
+ESI provides bare metal isolation through the use of owners and lessees. It may be useful to isolate or share additional OpenStack resources.
+
+Networks
+~~~~~~~~
+
+By default, a network is only viewable and usable by the project that created it. Public networks can be created using the ``--share`` flag.
+
+A private network can also be shared on a project-by-project basis:
+
++--------------------+--------------------------------------------------------------------------------------------------------------------------------+
+|                    | **Network Owner Actions**                                                                                                      |
++--------------------+--------------------------------------------------------------------------------------------------------------------------------+
+| List RBAC Policies | ``openstack network rbac list``                                                                                                |
++--------------------+--------------------------------------------------------------------------------------------------------------------------------+
+| Share Network      | ``openstack network rbac create --action access_as_shared --type network --target-project <project-to-gain-access> <network>`` |
++--------------------+--------------------------------------------------------------------------------------------------------------------------------+
+| Unshare Network    | ``openstack network rbac delete <rbac policy>``                                                                                |
++--------------------+--------------------------------------------------------------------------------------------------------------------------------+
+
+Volumes
+~~~~~~~
+
+A volumes is only viewable and usable by the project that created it. Volumes cannot be shared; however, they can be transferred. First, the owner of the volume must create a volume transfer request:
+
++--------------------------------+--------------------------------------------------------------+
+|                                | **Volume Owner Actions**                                     |
++--------------------------------+--------------------------------------------------------------+
+| Create Volume Transfer Request | ``openstack volume transfer request create volume-bootable`` |
++--------------------------------+--------------------------------------------------------------+
+
+The output of this command includes an ``id`` and an ``auth_key``. The volume owner sends these values to the desired project, who can then accept the transfer:
+
++--------------------------------+---------------------------------------------------------------------------------+
+|                                | **Target Volume Owner Actions**                                                 |
++--------------------------------+---------------------------------------------------------------------------------+
+| Accept Volume Transfer Request | ``openstack volume transfer request accept --auth-key <auth_key> <request_id>`` |
++--------------------------------+---------------------------------------------------------------------------------+
+
+Images
+~~~~~~
+
+By default, an image is only viewable and usable by the project that created it. Administrators can create a public image by using the ``--public`` flag.
+
+A private image can also be shared on a project-by-project basis:
+
++----------------------+------------------------------------------------------+
+|                      | **Image Owner Actions**                              |
++----------------------+------------------------------------------------------+
+| Share Image          | ``openstack image add project <image> <project>``    |
++----------------------+------------------------------------------------------+
+| Unshare Image        | ``openstack image remove project <image> <project>`` |
++----------------------+------------------------------------------------------+
+
+Note that the image owner must send the target project the image ID, and the target project must accept the image share:
+
++----------------------+---------------------------------------------+
+|                      | **Target Project Actions**                  |
++----------------------+---------------------------------------------+
+| Accept Image Share   | ``openstack image set --accept <image id>`` |
++----------------------+---------------------------------------------+
+
 Provisioning a Node
 -------------------
 
@@ -128,7 +192,6 @@ In order to use an external provisioning service, simply attach the node to the 
 +-------------------------------+------------------------------------------------------------------------------------+
 | Attach Network to Node        | ``openstack esi node network attach (--network <network> | --port <port>) <node>`` |
 +-------------------------------+------------------------------------------------------------------------------------+
-
 
 Additional ESI CLI Actions
 --------------------------
