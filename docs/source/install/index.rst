@@ -15,23 +15,27 @@ Additional Patches
 
 The following patches may be of use. Depending on your OpenStack version, they may be already included in your installation.
 
-+---------------------+-----------------------------------------------+--------------------------+
-| Repository          | Patch                                         | Status                   |
-+=====================+===============================================+==========================+
-|                     | *Port Multi-Tenancy*                          |                          |
-+---------------------+-----------------------------------------------+--------------------------+
-| ironic              | `Allow node lessee to see node's ports`_      | Released in **Victoria** |
-+---------------------+-----------------------------------------------+--------------------------+
-| ironic              | `Allow node vif attach to specify port_uuid`_ | Released in **Victoria** |
-+---------------------+-----------------------------------------------+--------------------------+
-| python-ironicclient | `Add port-uuid parameter to node vif attach`_ | Released in **Victoria** |
-+---------------------+-----------------------------------------------+--------------------------+
-|                     | *Trunk Ports*                                 |                          |
-+---------------------+-----------------------------------------------+--------------------------+
-| network-runner      | `Add kwargs to trunk ports`_                  | Merged upstream          |
-+---------------------+-----------------------------------------------+--------------------------+
-| networking-ansible  | `Correct port detachment`_                    | Released in **Victoria** |
-+---------------------+-----------------------------------------------+--------------------------+
++---------------------+---------------------------------------------------+--------------------------+
+| Repository          | Patch                                             | Status                   |
++=====================+===================================================+==========================+
+|                     | *Port Multi-Tenancy*                              |                          |
++---------------------+---------------------------------------------------+--------------------------+
+| ironic              | `Allow node lessee to see node's ports`_          | Released in **Victoria** |
++---------------------+---------------------------------------------------+--------------------------+
+| ironic              | `Allow node vif attach to specify port_uuid`_     | Released in **Victoria** |
++---------------------+---------------------------------------------------+--------------------------+
+| python-ironicclient | `Add port-uuid parameter to node vif attach`_     | Released in **Victoria** |
++---------------------+---------------------------------------------------+--------------------------+
+|                     | *Non-Admin Boot from Volume*                      |                          |
++---------------------+---------------------------------------------------+--------------------------+
+| ironic              | `Allow instance_info to override node interface`_ | Merged upstream          |
++---------------------+---------------------------------------------------+--------------------------+
+|                     | *Trunk Ports*                                     |                          |
++---------------------+---------------------------------------------------+--------------------------+
+| network-runner      | `Add kwargs to trunk ports`_                      | Merged upstream          |
++---------------------+---------------------------------------------------+--------------------------+
+| networking-ansible  | `Correct port detachment`_                        | Released in **Victoria** |
++---------------------+---------------------------------------------------+--------------------------+
 
 ESI Add-Ons
 -----------
@@ -55,3 +59,4 @@ Instructions for installing these add-ons can be found within the linked reposit
 .. _Add port-uuid parameter to node vif attach: https://review.opendev.org/#/c/737585/
 .. _Add kwargs to trunk ports: https://github.com/ansible-network/network-runner/pull/48
 .. _Correct port detachment: https://review.opendev.org/#/c/745318/
+.. _Allow instance_info to override node interface: https://review.opendev.org/c/openstack/ironic/+/777434
