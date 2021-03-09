@@ -88,6 +88,48 @@ Users can view available offers and contract a node from an offer.
 | Delete Contract | ``openstack lease contract delete <contract_uuid>``                                                      |
 +-----------------+----------------------------------------------------------------------------------------------------------+
 
+Provisioning a Node
+-------------------
+
+There are multiple ways for a non-admin to provision a node.
+
+Image
+~~~~~
+
+Image-based provisioning can be accomplished through the use of `Metalsmith`_. It requires the image to be uploaded into OpenStack Glance. Once that's done, a non-admin can run the following:
+
++----------------+---------------------------------------------------------------------------------------------------------------------+
+|                | **Actions**                                                                                                         |
++----------------+---------------------------------------------------------------------------------------------------------------------+
+| Provision Node | ``metalsmith deploy --resource-class baremetal --image <image> --network <network> --ssh-public-key <path-to-key>`` |
++----------------+---------------------------------------------------------------------------------------------------------------------+
+
+Volume
+~~~~~~
+
+The process for booting a node from a volume is described in the `Ironic boot-from-volume documentation`_. There are two things to note for non-admin deployments:
+
+* The node owner or admin should set the `iscsi_boot` node capability prior to leasing the node.
+* The node lessee should not be allowed to edit the `storage_interface` node attribute. Instead, they can run the following command to temporarily override that value (until the node is cleaned):
+
++----------------------------+----------------------------------------------------------------------------------+
+|                            | **Actions**                                                                      |
++----------------------------+----------------------------------------------------------------------------------+
+| Override Storage Interface | ``openstack baremetal node set --instance-info storage_interface=cinder <node>`` |
++----------------------------+----------------------------------------------------------------------------------+
+
+External Provisioning
+~~~~~~~~~~~~~~~~~~~~~
+
+In order to use an external provisioning service, simply attach the node to the appropriate network. You can do so through OpenStack Neutron and Ironic CLI commands; or use `python-esiclient`_:
+
++-------------------------------+------------------------------------------------------------------------------------+
+|                               | **Actions**                                                                        |
++-------------------------------+------------------------------------------------------------------------------------+
+| Attach Network to Node        | ``openstack esi node network attach (--network <network> | --port <port>) <node>`` |
++-------------------------------+------------------------------------------------------------------------------------+
+
+
 Additional ESI CLI Actions
 --------------------------
 
@@ -125,4 +167,6 @@ Trunk Ports
 
 .. _Ironic CLI reference: https://docs.openstack.org/python-ironicclient/latest/cli/osc_plugin_cli.html
 .. _ESI Leap: https://github.com/CCI-MOC/esi-leap
+.. _Metalsmith: https://docs.openstack.org/metalsmith/latest/
+.. _Ironic boot-from-volume documentation: https://docs.openstack.org/ironic/latest/admin/boot-from-volume.html
 .. _python-esiclient: https://github.com/CCI-MOC/python-esiclient
