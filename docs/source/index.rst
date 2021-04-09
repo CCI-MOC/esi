@@ -3,7 +3,7 @@ ESI Documentation
 
 Welcome to the documentation for Elastic Secure Infrastructure (ESI)!
 
-ESI is an OpenStack project that allows multiple bare metal node owners to collaborate to form a single bare metal cloud. Owners have exclusive use of their nodes, and can also lease their nodes out to lessees. Take a look at our presentation for a good high-level overview:
+ESI is a hardware isolation project built on top of OpenStack that allows multiple bare metal node owners to collaborate to form a single bare metal cloud. Owners have exclusive use of their nodes, and can also lease their nodes out to lessees. Take a look at our presentation for a good high-level overview:
 
 * ESI: How I Learned to Share My Hardware! [ `video`_ | `PDF`_ ]
 
