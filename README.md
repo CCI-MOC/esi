@@ -84,10 +84,11 @@ Our code development features a mix of upstream OpenStack work and custom ESI co
 
 ## Contact and Contribution
 
-You can contact the ESI development team on the Freenode `#moc` IRC channel.
+You can contact the ESI development team on the [OFTC][oftc] `#moc` IRC channel.
 
 You are welcome to open issues or submit pull requests concerning our documentation via the [ESI GitHub repository][gh].
 
 We have a mailing list at esi@lists.massopen.cloud. Go [here](https://mail.massopen.cloud/mailman/listinfo/esi) to subscribe.
 
+[oftc]: https://www.oftc.net/
 [gh]: https://github.com/CCI-MOC/esi
