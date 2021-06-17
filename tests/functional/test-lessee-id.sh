@@ -8,9 +8,8 @@ lessee='test1-subproject'
 
 # Setup script, contains offer create test
 
-./setup.sh $tmpfile $project_id $start $end $lessee
+./setup.sh "$tmpfile" "$project_id" "$start" "$end" "$lessee"
 
-cat $tmpfile
 # Sources variables defined in the setup script
 . $tmpfile
 
