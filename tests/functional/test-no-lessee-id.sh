@@ -59,6 +59,7 @@ echo "OFFER DELETE NOT FOUND TEST"
 openstack --os-cloud test1 esi offer delete "notanofferuuid" > $tmpfile 2> $errfile
 ec=$?
 expected_error='Offer with name or uuid notanofferuuid not found.'
+
 if ! grep -q "$expected_error" $errfile; then
   if [[ $ec -eq 0 ]]; then
     echo "ERROR: succeeded deleting offer that shouldn't exist. Either someone named their offer 'notanofferuuid' or the delete command gave a success when it shouldn't have" >&2
@@ -70,6 +71,31 @@ if ! grep -q "$expected_error" $errfile; then
 fi
 
 echo "OFFER DELETE NOT FOUND TEST SUCCEEDED"
+
+####################################
+## OFFER DELETE INVALID USER TEST ##
+####################################
+
+# Tests that an owner cannot delete a nonexistent offer
+
+echo "OFFER DELETE INVALID USER TEST"
+
+openstack --os-cloud test2 esi offer delete $test_offer_uuid > $tmpfile 2> $errfile
+ec=$?
+# Ends up doing the same thing as the not found test since test2 can't view the offer
+expected_error="Offer with name or uuid $test_offer_uuid not found."
+
+if ! grep -q "$expected_error" $errfile; then
+  if [[ $ec -eq 0 ]]; then
+    echo "ERROR: succeeded deleting offer despite invalid user" >&2
+  else
+    echo "ERROR: unexpected error during delete offer invalid user test" >&2
+    cat $errfile >&2
+  fi
+  exit 1
+fi
+
+echo "OFFER DELETE INVALID USER TEST SUCCEEDED"
 
 ############################################
 ## OFFER NOT AVAILABLE IN TIME RANGE TEST ##
@@ -104,7 +130,10 @@ echo "OFFER NOT AVAILABLE IN TIME RANGE TEST SUCCEEDED"
 
 echo "OFFER CLAIM TEST"
 
-openstack --os-cloud test1-subproject esi offer claim $test_offer_uuid -f shell > $tmpfile \
+openstack --os-cloud test1-subproject esi offer claim \
+  --start-time $start \
+  --end-time $(date -d "+2 days" +%Y-%m-%d) \
+  $test_offer_uuid -f shell > $tmpfile \
   || { ec=$?; echo "ERROR: failed to claim offer" >&2; exit $ec; }
 cat $tmpfile
 . $tmpfile
@@ -136,3 +165,21 @@ if ! grep -q "$expected_error" $errfile; then
 fi
 
 echo "OFFER CLAIM TIME CONFLICT TEST SUCCEEDED"
+
+#######################################
+## OFFER CLAIM MULTIPLE LESSEES TEST ##
+#######################################
+
+# Tests that different lessees can each claim a single offer as long as there is no time conflict
+
+echo "OFFER CLAIM MULTIPLE LESSEES TEST"
+
+openstack --os-cloud test1-subproject esi offer claim \
+  --start-time $(date -d "+2 days" +%Y-%m-%d) \
+  --end-time $end \
+  $test_offer_uuid -f shell > $tmpfile \
+  || { ec=$?; echo "ERROR: failed to claim offer" >&2; exit $ec; }
+cat $tmpfile
+. $tmpfile
+
+echo "OFFER CLAIM MULTIPLE LESSEES TEST SUCCEEDED"

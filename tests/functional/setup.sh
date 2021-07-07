@@ -1,9 +1,9 @@
 #!/bin/bash
 
-tmpfile=$1
-project_id=$2
-start=$3
-end=$4
+tmpfile="$1"
+project_id="$2"
+start="$3"
+end="$4"
 lessee_option=''
 nodefile=$(mktemp /tmp/nodes/XXXX)
 errfile=$(mktemp ./errXXXXXX)
@@ -26,7 +26,7 @@ cat <<EOF > /tmp/nodes/$node_uuid
 EOF
 
 # Check if the lessee was passed
-if ! [[ -z ${5+x} ]]; then
+if ! [[ -z "$5" ]]; then
   lessee_option=" --lessee $5"
 fi
 
@@ -40,8 +40,8 @@ echo "OFFER CREATE TEST"
 
 openstack --os-cloud test1 esi offer create \
   $node_uuid \
-  --start-time $start \
-  --end-time $end \
+  --start-time "$start" \
+  --end-time "$end" \
   --resource-type dummy_node\
   $lessee_option \
   -f shell > $tmpfile \
