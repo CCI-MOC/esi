@@ -15,7 +15,7 @@ ESI accommodates three roles:
 * **Lessee**
    * Can only view nodes that they have leased.
    * Has temporary use of their nodes for the duration of the lease.
-   * Contracts out a node from an available offer.
+   * Leases out a node from an available offer.
 
 Once a node is assigned to an owner or lessee, they can use existing OpenStack CLI commands to work with that node (as limited by Ironic policy); see the `Ironic CLI reference`_ for more information.
 
@@ -58,35 +58,41 @@ If `ESI Leap`_ is installed, then node leases can also be managed as follows:
 
 **Owner Actions**
 
-Node owners can offer up their nodes for lease for a given time period. Unoffered nodes will not be seen by lessees.
+Node owners can lease a node directly to a lessee, or offer up their nodes for lease for a given time period. Unoffered nodes cannot be seen by lessees.
 
-+--------------+------------------------------------------------------------------------------------------------------------------------------------------+
-|              | **Owner Actions**                                                                                                                        |
-+--------------+------------------------------------------------------------------------------------------------------------------------------------------+
-| Create Offer | ``openstack lease offer create --resource-type ironic_node --resource_uuid <node_uuid> --start-time <start_time> --end-time <end_time>`` |
-+--------------+------------------------------------------------------------------------------------------------------------------------------------------+
-| View Offer   | ``openstack lease offer show <offer_uuid>``                                                                                              |
-+--------------+------------------------------------------------------------------------------------------------------------------------------------------+
-| Delete Offer | ``openstack lease offer delete <offer_uuid>``                                                                                            |
-+--------------+------------------------------------------------------------------------------------------------------------------------------------------+
++--------------+---------------------------------------------------------------------------------------------------------------------+
+|              | **Owner Actions**                                                                                                   |
++--------------+---------------------------------------------------------------------------------------------------------------------+
+| Create Lease | ``openstack esi lease create --start-time <start_time> --end-time <end_time> <node_uuid_or_name> <lessee_project>`` |
++--------------+---------------------------------------------------------------------------------------------------------------------+
+| Show Lease   | ``openstack esi lease show <lease_uuid>``                                                                           |
++--------------+---------------------------------------------------------------------------------------------------------------------+
+| Delete Lease | ``openstack esi lease delete <lease_uuid>``                                                                         |
++--------------+---------------------------------------------------------------------------------------------------------------------+
+| Create Offer | ``openstack esi offer create --start-time <start_time> --end-time <end_time> <node_uuid_or_name>``                  |
++--------------+---------------------------------------------------------------------------------------------------------------------+
+| View Offer   | ``openstack esi offer show <offer_uuid>``                                                                           |
++--------------+---------------------------------------------------------------------------------------------------------------------+
+| Delete Offer | ``openstack esi offer delete <offer_uuid>``                                                                         |
++--------------+---------------------------------------------------------------------------------------------------------------------+
 
 **Lessee Actions**
 
-Users can view available offers and contract a node from an offer.
+Users can view available offers and claim an offer to create a lease.
 
-+-----------------+----------------------------------------------------------------------------------------------------------+
-|                 | **Lessee Actions**                                                                                       |
-+-----------------+----------------------------------------------------------------------------------------------------------+
-| List Offers     | ``openstack lease offer list``                                                                           |
-+-----------------+----------------------------------------------------------------------------------------------------------+
-| Create Contract | ``openstack lease contract create --offer <offer_uuid> --start-time <start_time> --end-time <end_time>`` |
-+-----------------+----------------------------------------------------------------------------------------------------------+
-| List Contracts  | ``openstack lease contract list``                                                                        |
-+-----------------+----------------------------------------------------------------------------------------------------------+
-| Show Contract   | ``openstack lease contract show <contract_uuid>``                                                        |
-+-----------------+----------------------------------------------------------------------------------------------------------+
-| Delete Contract | ``openstack lease contract delete <contract_uuid>``                                                      |
-+-----------------+----------------------------------------------------------------------------------------------------------+
++--------------+--------------------------------------------------------------------------------------------+
+|              | **Lessee Actions**                                                                         |
++--------------+--------------------------------------------------------------------------------------------+
+| List Offers  | ``openstack esi offer list``                                                               |
++--------------+--------------------------------------------------------------------------------------------+
+| Claim Offer  | ``openstack esi offer claim --start-time <start_time> --end-time <end_time> <offer_uuid>`` |
++--------------+--------------------------------------------------------------------------------------------+
+| List Leases  | ``openstack esi lease list``                                                               |
++--------------+--------------------------------------------------------------------------------------------+
+| Show Lease   | ``openstack esi lease show <lease_uuid>``                                                  |
++--------------+--------------------------------------------------------------------------------------------+
+| Delete Lease | ``openstack esi lease delete <lease_uuid>``                                                |
++--------------+--------------------------------------------------------------------------------------------+
 
 Resource Isolation and Sharing
 ------------------------------
