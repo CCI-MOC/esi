@@ -43,7 +43,7 @@ echo "OFFER CLAIM INVALID USER TEST"
 
 openstack --os-cloud test1-subproject-1 esi offer claim $test_offer_uuid -f shell > $tmpfile 2> $errfile
 ec=$?
-expected_error='esi_leap:offer:offer_admin is disallowed by policy'
+expected_error="Access was denied to offer $test_offer_uuid."
 
 if ! grep -q "$expected_error" $errfile; then
   if [[ $ec -eq 0 ]]; then

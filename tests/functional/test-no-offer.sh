@@ -76,7 +76,7 @@ openstack --os-cloud test2 esi offer create \
   --resource-type dummy_node \
   -f shell > $tmpfile 2> $errfile
 ec=$?
-expected_error="esi_leap:offer:offer_admin is disallowed by policy"
+expected_error="Access was denied to dummy_node $node_uuid."
 
 if ! cat $errfile | grep -q "$expected_error"; then
   if [[ $ec -eq 0 ]]; then
@@ -109,7 +109,7 @@ openstack --os-cloud test2 esi lease create \
   --resource-type dummy_node \
   -f shell > $tmpfile 2> $errfile
 ec=$?
-expected_error="esi_leap:offer:offer_admin is disallowed by policy"
+expected_error="Access was denied to dummy_node $node_uuid."
 
 if ! cat $errfile | grep -q "$expected_error"; then
   if [[ $ec -eq 0 ]]; then

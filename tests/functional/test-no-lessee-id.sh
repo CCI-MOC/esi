@@ -7,7 +7,7 @@ end=$(date -d "+5 days" +%Y-%m-%d)
 
 # Setup script, contains offer create test
 
-./setup.sh $tmpfile $project_id $start $end $resource_type
+./setup.sh $tmpfile $project_id $start $end
 
 . $tmpfile
 
@@ -28,7 +28,7 @@ openstack --os-cloud test1 esi offer create \
   $node_uuid \
   --start-time $start \
   --end-time $end \
-  --resource-type $resource_type \
+  --resource-type dummy_node \
   -f shell > $tmpfile 2> $errfile
 ec=$?
 expected_error="Time conflict for dummy_node $node_uuid."

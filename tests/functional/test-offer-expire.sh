@@ -14,16 +14,17 @@ end=$(date -d "+1 minute" +"%Y-%m-%d %H:%M:%S")
 # The uuid variable will be overwritten, so we save it here
 test_offer_uuid=$uuid
 # Run cleanup if the script exits, contains offer delete test
+# Note: deletion will fail if handling of expired offers works
 trap "./cleanup.sh $test_offer_uuid; rm -f $tmpfile $errfile $nodefile" EXIT
-
-sleep 2m
-date +"%Y-%m-%D %H:%M:%S"
 
 ###################################
 ## OFFER LIST EXPIRED OFFER TEST ##
 ###################################
 
 echo "OFFER LIST EXPIRED OFFER TEST"
+
+sleep 2m
+date +"%Y-%m-%D %H:%M:%S"
 
 openstack --os-cloud test1-subproject esi offer list -f json > $tmpfile \
   || { ec=$?; echo "ERROR: failed to list offers" >&2; exit $ec; }
