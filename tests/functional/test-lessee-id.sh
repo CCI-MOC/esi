@@ -4,11 +4,12 @@ project_id=75681640118a4890b3da0d106eae8af7 # test1 uuid
 tmpfile=$(mktemp ./leaseXXXXXX)
 start=$(date +%Y-%m-%d)
 end=$(date -d "+5 days" +%Y-%m-%d)
+resource_type="dummy_node"
 lessee='test1-subproject'
 
 # Setup script, contains offer create test
 
-./setup.sh "$tmpfile" "$project_id" "$start" "$end" "$lessee"
+./setup.sh "$tmpfile" "$project_id" "$start" "$end" "$resource_type" "$lessee"
 
 # Sources variables defined in the setup script
 . $tmpfile
@@ -78,7 +79,7 @@ cat <<EOF
 Created lease $uuid:
   Starting at: $start_time
   Ending at:   $end_time
-  For: $resource_type $resource_uuid
+  For: $resource_type ${nodefile##/tmp/nodes/}
   From offer:  $test_offer_uuid
 EOF
 

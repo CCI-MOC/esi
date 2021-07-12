@@ -4,6 +4,7 @@ project_id=75681640118a4890b3da0d106eae8af7 # test1 uuid
 tmpfile=$(mktemp ./leaseXXXXXX)
 start=$(date +%Y-%m-%d)
 end=$(date -d "+1 minute" +"%Y-%m-%d %H:%M:%S")
+resource_type="dummy_node"
 
 # Setup script, contains offer create test
 

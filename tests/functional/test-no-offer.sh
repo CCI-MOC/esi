@@ -6,7 +6,8 @@ start=$(date +%Y-%m-%d)
 end=$(date -d "+5 days" +%Y-%m-%d)
 nodefile=$(mktemp /tmp/nodes/XXXX)
 errfile=$(mktemp ./errXXXXXX)
-node_uuid=$(echo $nodefile | sed 's/\/tmp\/nodes\///')
+node_uuid=${nodefile##/tmp/nodes}
+resource_type="dummy_node"
 
 trap "rm -f $nodefile $tmpfile $errfile" EXIT
 
@@ -39,7 +40,7 @@ openstack --os-cloud test1 esi lease create \
   test1-subproject \
   --start-time $start \
   --end-time $end \
-  --resource-type dummy_node \
+  --resource-type $resource_type \
   -f shell > $tmpfile \
   || { ec=$?; echo "ERROR: failed to create lease" >&2; exit $ec; }
 
@@ -73,10 +74,10 @@ openstack --os-cloud test2 esi offer create \
   $node_uuid \
   --start-time $start \
   --end-time $end \
-  --resource-type dummy_node \
+  --resource-type $resource_type \
   -f shell > $tmpfile 2> $errfile
 ec=$?
-expected_error="Access was denied to dummy_node $node_uuid."
+expected_error="Access was denied to $resource_type $node_uuid."
 
 if ! cat $errfile | grep -q "$expected_error"; then
   if [[ $ec -eq 0 ]]; then
@@ -106,10 +107,10 @@ openstack --os-cloud test2 esi lease create \
   test2-subproject \
   --start-time $start \
   --end-time $end \
-  --resource-type dummy_node \
+  --resource-type $resource_type \
   -f shell > $tmpfile 2> $errfile
 ec=$?
-expected_error="Access was denied to dummy_node $node_uuid."
+expected_error="Access was denied to $resource_type $node_uuid."
 
 if ! cat $errfile | grep -q "$expected_error"; then
   if [[ $ec -eq 0 ]]; then
