@@ -4,10 +4,15 @@ tmpfile="$1"
 project_id="$2"
 start="$3"
 end="$4"
+resource_type="$5"
 lessee_option=''
 nodefile=$(mktemp /tmp/nodes/XXXX)
 errfile=$(mktemp ./errXXXXXX)
 node_uuid=$(echo $nodefile | sed 's/\/tmp\/nodes\///')
+
+if [[ -z "$5" ]]; then
+    resource_type="dummy_node"
+fi
 
 # Create dummy node
 
@@ -26,8 +31,8 @@ cat <<EOF > /tmp/nodes/$node_uuid
 EOF
 
 # Check if the lessee was passed
-if ! [[ -z "$5" ]]; then
-  lessee_option=" --lessee $5"
+if ! [[ -z "$6" ]]; then
+  lessee_option=" --lessee $6"
 fi
 
 #######################
@@ -42,7 +47,7 @@ openstack --os-cloud test1 esi offer create \
   $node_uuid \
   --start-time "$start" \
   --end-time "$end" \
-  --resource-type dummy_node\
+  --resource-type "$resource_type"\
   $lessee_option \
   -f shell > $tmpfile \
   || { ec=$?; echo "ERROR: failed to create offer" >&2; exit $ec; }

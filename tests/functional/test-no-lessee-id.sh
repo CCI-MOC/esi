@@ -4,10 +4,11 @@ project_id=75681640118a4890b3da0d106eae8af7 # test1 uuid
 tmpfile=$(mktemp ./leaseXXXXXX)
 start=$(date +%Y-%m-%d)
 end=$(date -d "+5 days" +%Y-%m-%d)
+resource_type="dummy_node"
 
 # Setup script, contains offer create test
 
-./setup.sh $tmpfile $project_id $start $end $resource_type
+./setup.sh "$tmpfile" "$project_id" "$start" "$end" "$resource_type"
 
 . $tmpfile
 
@@ -31,7 +32,7 @@ openstack --os-cloud test1 esi offer create \
   --resource-type $resource_type \
   -f shell > $tmpfile 2> $errfile
 ec=$?
-expected_error="Time conflict for dummy_node $node_uuid."
+expected_error="Time conflict for $resource_type $node_uuid."
 
 if ! cat $errfile | grep -q "$expected_error"; then
   if [[ $ec -eq 0 ]]; then
