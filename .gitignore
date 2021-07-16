@@ -1,2 +1,5 @@
 clouds.yaml
-tests/functional/err*
+
+.tox
+.stestr
+__pycache__
