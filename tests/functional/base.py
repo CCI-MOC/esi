@@ -1,5 +1,6 @@
 import os
 import configparser
+import tempfile
 from tempest.lib.cli import base
 from tempest.lib.common.utils.data_utils import rand_name
 
@@ -10,6 +11,7 @@ class EsiFunctionalBase(base.ClientTestBase):
         super(EsiFunctionalBase, self).setUp()
         self.cfg = self._init_config()
         self._init_clients()
+        self.dummy_node = self._init_dummy_node()
 
     def _init_config(self):
         # allow custom configuration to be passed in via env var
@@ -105,6 +107,40 @@ class EsiFunctionalBase(base.ClientTestBase):
     def _cleanup_dummy_project(self):
         self.os_execute('project delete', '', '%s' % self.cfg['test_project_id'],
                 'admin')
+
+    def _init_dummy_node(self):
+        node_dir = self.cfg['dummy_node_dir']
+        if not os.path.exists(node_dir):
+            os.mkdir(node_dir)
+        if not os.path.isdir(node_dir):
+            raise OSError('Error creating dummy node @ %s: not a directory'
+                    % node_dir)
+
+        dummy_node_info = [
+                '{',
+                '   "project_owner_id": "%s",' % self.cfg['test_project_id'],
+                '   "server_config": {',
+                '       "example_attribute": "example server config",',
+                '       "cpu_type": "Intel Xeon",',
+                '       "cores": 16,',
+                '       "ram_gb": 512,',
+                '       "storage_type": "Samsung SSD",',
+                '       "storage_size_gb": 1024',
+                '   }',
+                '}']
+
+        node = tempfile.mkstemp(prefix='', dir=node_dir, text=True)
+        node_fd = node[0]
+        node_path = node[1]
+        for line in dummy_node_info:
+            os.write(node_fd, ('%s\n' % line).encode())
+        os.close(node_fd)
+
+        self.addCleanup(self._cleanup_dummy_node)
+        return { 'path': node_path, 'uuid': os.path.basename(node_path) }
+
+    def _cleanup_dummy_node(self):
+        os.remove(self.dummy_node['path'])
 
     def os_execute(self, cmd, flags='', params='', client='test', parse=True):
         """Runs an openstack command via python-openstackclient.
