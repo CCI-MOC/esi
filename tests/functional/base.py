@@ -8,12 +8,13 @@ class EsiFunctionalBase(base.ClientTestBase):
 
     def setUp(self):
         super(EsiFunctionalBase, self).setUp()
-        self.cfg = self._get_config()
-        self.client = self._init_client()
+        self.cfg = self._init_config()
+        self._init_clients()
 
-    def _get_config(self):
+    def _init_config(self):
         # allow custom configuration to be passed in via env var
-        cfg_file_path = os.environ.get('OS_ESI_CFG_PATH', '/etc/esi-leap/esi-leap.conf')
+        cfg_file_path = os.environ.get('OS_ESI_CFG_PATH',
+                '/etc/esi-leap/esi-leap.conf')
         cfg_parser = configparser.ConfigParser()
         if not cfg_parser.read(cfg_file_path):
             self.fail('Could not open config file %s for reading' % cfg_file_path)
@@ -43,25 +44,83 @@ class EsiFunctionalBase(base.ClientTestBase):
             opt = 'auth_type'
             parsed[opt] = auth_get(opt)
             if not parsed[opt] == 'noauth':
-                auth_opts = ['auth_url', 'username', 'password', 'project_name']
+                # TODO: add support for keystone v2 (this is v3-only atm)
+                auth_opts = ['auth_url', 'username', 'password', 'project_name',
+                        'user_domain_name', 'project_domain_name']
                 for opt in auth_opts:
-                    parsed[opt] = auth_get(opt) 
+                    if opt == 'project_name':
+                        parsed['admin_project_name'] = auth_get('project_name')
+                    else:
+                        parsed[opt] = auth_get(opt)
         except (configparser.NoOptionError):
             self.fail("Missing option %s in configuration file." % opt)
             
         return parsed
 
-    def _init_client(self):
+    def _get_clients(self):
+        # NOTE: ClientTestBase's constructor requires this to be implemented, but
+        # to initialize our clients, we need ClientTestBase's constructor to have
+        # been called. We return nothing and leave the job up to _init_clients().
+        return {}
+
+    def _init_clients(self):
         venv_name = os.environ.get('OS_VENV_NAME', default='functional')
         cli_dir = os.path.join(os.path.abspath('.'), '.tox/%s/bin' % venv_name)
-        
-        if self.cfg['auth_type'] != 'noauth':
-            client = base.CLIClient(cli_dir=cli_dir,
-                                    username=self.cfg['username'],
-                                    password=self.cfg['password'],
-                                    tenant_name=self.cfg['project_name'],
-                                    uri=self.cfg['auth_url'])
-        else:
-            client = base.CLIClient(cli_dir=cli_dir)
 
-        return client
+        def init_client(project_name):
+            if self.cfg['auth_type'] != 'noauth':
+                return base.CLIClient(cli_dir=cli_dir,
+                        username=self.cfg['username'],
+                        password=self.cfg['password'],
+                        user_domain_name=self.cfg['user_domain_name'],
+                        tenant_name=self.cfg[project_name],
+                        project_domain_name=self.cfg['project_domain_name'],
+                        uri=self.cfg['auth_url'])
+            else:
+                return base.CLIClient(cli_dir=cli_dir)
+
+        # Initialize admin client, used to set up testing environment.
+        admin_client = init_client('admin_project_name')
+        self.clients['admin'] = admin_client
+
+        # Initialize dummy project for the client that will execute test commands.
+        dummy_project = self._init_dummy_project()
+        for listing in dummy_project:
+            for field in 'id', 'name':
+                if listing['Field'] == field:
+                    self.cfg['test_project_%s' % field] = listing['Value']
+
+        test_client = init_client('test_project_name')
+        self.clients['test'] = test_client
+        self.addCleanup(self._cleanup_dummy_project)
+        
+    def _init_dummy_project(self):
+        name = rand_name('EsiTestProject')
+        description = '"Test project created by Tempest for ESI functional testing"'
+        domain = self.cfg['project_domain_name']
+        return self.os_execute('project create', '',
+                '--description %s --domain %s --enable %s' %
+                (description, domain, name), 'admin')
+
+    def _cleanup_dummy_project(self):
+        self.os_execute('project delete', '', '%s' % self.cfg['test_project_id'],
+                'admin')
+
+    def os_execute(self, cmd, flags='', params='', client='test', parse=True):
+        """Runs an openstack command via python-openstackclient.
+        arguments:
+            cmd - openstack command to run (e.g. "esi offer list")
+            flags - flags for the openstack command
+            params - positional arguments for the command (if required)
+            client - which client (admin/test) to use to execute the command
+            parse - determines if parsed output or raw output is returned
+        returns:
+            if parse=True - a list of dicts containing the parsed cmd output
+            if parse=False - the raw output of the command as a string
+        """
+        result = (
+                self.clients[client].openstack(cmd, flags, params) if
+                self.cfg['auth_type'] != 'noauth' else
+                execute('openstack', cmd, flags, params, cli_dir=self.client.cli_dir))
+
+        return self.parser.listing(result) if parse else result
