@@ -93,12 +93,9 @@ class EsiFunctionalBase(base.ClientTestBase):
                     % (field, name)) }
 
         def initialize(field, params):
-            output = self.parser.listing(self.clients['admin'].openstack(
-                '%s create %s' % (field, cloud[field]['name']), '', params))
-            for row in output:
-                if row['Field'] == 'id':
-                    cloud[field]['id'] = row['Value']
-                    break
+            output = self.clients['admin'].openstack('%s create %s' %
+                    (field, cloud[field]['name']), '', params)
+            cloud[field]['id'] = self.parse_details(output)['id']
 
         pw = data_utils.rand_password()
         initialize('project', '--domain default --enable')
@@ -197,6 +194,13 @@ class EsiFunctionalBase(base.ClientTestBase):
                 default[key] = args[key]
         return default
 
+    def parse_details(self, output):
+        listing = self.parser.listing(output)
+        details = {}
+        for item in listing:
+            details.update({ item['Field']: item['Value'] })
+        return details
+
     def offer_create(self, client, node, parse=True, **kwargs):
         flags_default = { 'resource_type': 'dummy_node' }
         for flag in 'start_time', 'end_time', 'lessee', 'name', 'properties':
@@ -205,7 +209,7 @@ class EsiFunctionalBase(base.ClientTestBase):
         flags = self._kwargs_to_flags(self._merge_kwargs(flags_default, kwargs))
         output = self.clients[client].esi('offer create', flags, node['uuid'])
 
-        return self.parser.listing(output) if parse else output
+        return self.parse_details(output) if parse else output
 
     def offer_delete(self, client, offer_uuid):
         return self.clients[client].esi('offer delete', '', offer_uuid)
@@ -214,7 +218,7 @@ class EsiFunctionalBase(base.ClientTestBase):
         flags_default = {}
         for flag in ('long', 'status', 'project', 'resource_uuid',
                 'resource_type', 'time_range', 'availability_range'):
-            flags_defualt[flag] = None
+            flags_default[flag] = None
 
         flags = self._kwargs_to_flags(self._merge_kwargs(flags_default, kwargs))
         output = self.clients[client].esi('offer list', flags, '')
@@ -223,7 +227,7 @@ class EsiFunctionalBase(base.ClientTestBase):
 
     def offer_show(self, client, offer_uuid, parse=True):
         output = self.clients[client].esi('offer show', '', offer_uuid)
-        return self.parser.listing(output) if parse else output
+        return self.parse_details(output) if parse else output
 
     def offer_claim(self, client, offer_uuid, parse=True, **kwargs):
         flags_default = {}
@@ -233,7 +237,7 @@ class EsiFunctionalBase(base.ClientTestBase):
         flags = self._kwargs_to_flags(self._merge_kwargs(flags_default, kwargs))
         output = self.clients[client].esi('offer claim', flags, offer_uuid)
 
-        return self.parser.listing(output) if parse else output
+        return self.parse_details(output) if parse else output
 
     def lease_create(self, client, node, lessee, parse=True, **kwargs):
         flags_default = { 'resource_type': 'dummy_node' }
@@ -244,7 +248,7 @@ class EsiFunctionalBase(base.ClientTestBase):
         output = self.clients[client].esi('lease create', flags, '%s %s' %
                 (node['uuid'], self.client_info[lessee]['project_name']))
 
-        return self.parser.listing(output) if parse else output
+        return self.parse_details(output) if parse else output
 
     def lease_list(self, client, parse=True, **kwargs):
         flags_default = {}
@@ -262,7 +266,7 @@ class EsiFunctionalBase(base.ClientTestBase):
 
     def lease_show(self, client, lease_uuid, parse=True):
         output = self.clients[client].esi('lease show', '', lease_uuid)
-        return self.parser.listing(output) if parse else output
+        return self.parse_details(output) if parse else output
 
     def owner_change_create(self, client, owner_prev, owner_new, node, 
             parse=True, **kwargs):
@@ -275,7 +279,7 @@ class EsiFunctionalBase(base.ClientTestBase):
                 '%s %s %s' % (self.client_info[owner_prev]['project_id'],
                     self.client_info[owner_new]['project_id'], node['uuid']))
 
-        return self.parser.listing(output) if parse else output
+        return self.parse_details(output) if parse else output
 
     def owner_change_list(self, client, parse=True, **kwargs):
         flags_default = {}
@@ -295,7 +299,7 @@ class EsiFunctionalBase(base.ClientTestBase):
     def owner_change_show(self, client, owner_change_uuid, parse=True):
         output = self.clients[client].esi('owner change show',
                 '', owner_change_uuid)
-        return self.parser.listing(output) if parse else output
+        return self.parse_details(output) if parse else output
 
 class EsiCliClient(base.CLIClient):
     def esi(self, action, flags='', params='', fail_ok=False,
