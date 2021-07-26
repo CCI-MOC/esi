@@ -1,22 +1,20 @@
 import tests.functional.base as base
+from tests.functional.utils.dummy_node import DummyNode
 
-class PositiveLeasingTests(base.EsiFunctionalBase):
+class PositiveTests(base.ESIFunctionalBase):
     @classmethod
     def setUpClass(cls):
-        super(PositiveLeasingTests, cls).setUpClass()
+        super(PositiveTests, cls).setUpClass()
         cls._init_dummy_cloud(cls, 'owner', 'owner')
         cls._init_dummy_cloud(cls, 'lessee', 'lessee')
 
-        cls._init_client(cls, 'owner')
-        cls._init_client(cls, 'lessee')
-
-        cls.dummy_node = cls._new_dummy_node(cls, 'owner')
-
     def setUp(self):
-        super(PositiveLeasingTests, self).setUp()
-        self.clients = PositiveLeasingTests.clients
+        super(PositiveTests, self).setUp()
+        self.clients = PositiveTests.clients
+        self.dummy_node = DummyNode(PositiveTests.config['dummy_node_dir'],
+                PositiveTests.client_info['owner']['project_id'])
 
-    def test_offer_self(self):
+    def test_offer_base(self):
         """ Tests basic functionality of "esi offer create/list/show/delete"
                 when executed by a node-owning project.
             Test steps:
