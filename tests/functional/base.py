@@ -3,19 +3,27 @@ import configparser
 import tempfile
 import json
 from tempest.lib.cli import base
+from tempest.lib.cli import output_parser
 from tempest.lib.common.utils import data_utils
 
 class EsiFunctionalBase(base.ClientTestBase):
-    """This class handles calls to the esi-leap client"""
+    @classmethod
+    def setUpClass(cls):
+        super(EsiFunctionalBase, cls).setUpClass()
+        cls.clients = {}
+        cls.config = {}
+        cls.client_info = {}
+        cls._cleanups = []
 
-    def setUp(self):
-        super(EsiFunctionalBase, self).setUp()
-        self.config = {}
-        self.client_info = {}
+        cls._init_config(cls)
+        cls._init_client(cls, 'admin')
+        cls._init_roles(cls)
 
-        self._init_config()
-        self._init_client('admin')
-        self._init_roles()
+    @classmethod
+    def tearDownClass(cls):
+        cls._cleanups.reverse()
+        for cleanup in cls._cleanups:
+            cleanup[0](*cleanup[1:])
 
     def _get_clients(self):
         #NOTE: ClientTestBase's constructor requires this to be implemented, but
@@ -95,7 +103,7 @@ class EsiFunctionalBase(base.ClientTestBase):
         def initialize(field, params):
             output = self.clients['admin'].openstack('%s create %s' %
                     (field, cloud[field]['name']), '', params)
-            cloud[field]['id'] = self.parse_details(output)['id']
+            cloud[field]['id'] = self.parse_details(self, output)['id']
 
         pw = data_utils.rand_password()
         initialize('project', '--domain default --enable')
@@ -116,11 +124,11 @@ class EsiFunctionalBase(base.ClientTestBase):
                 'project_domain_name': 'default'}
 
         for field in cloud.keys():
-            self.addCleanup(self.clients['admin'].openstack, 
-                    '%s delete' % field, '', '%s' % cloud[field]['name'])
-        self.addCleanup(self.clients['admin'].openstack, 'role remove', '',
+            self._cleanups.append([self.clients['admin'].openstack, 
+                    '%s delete' % field, '', '%s' % cloud[field]['name']])
+        self._cleanups.append([self.clients['admin'].openstack, 'role remove', '',
                 '--user %s --project %s esi_leap_%s' % (cloud['user']['name'],
-                    cloud['project']['name'], role))
+                    cloud['project']['name'], role)])
         return 0
 
     def _init_roles(self):
@@ -129,8 +137,8 @@ class EsiFunctionalBase(base.ClientTestBase):
                 self.clients['admin'].openstack('role show', '', '%s' % role)
             except:
                 self.clients['admin'].openstack('role create', '', '%s' % role)
-                self.addCleanup(self.clients['admin'].openstack,
-                        'role delete', '', '%s' % role)
+                self._cleanups.append([self.clients['admin'].openstack,
+                    'role delete', '', '%s' % role])
 
     def _new_dummy_node(self, owner):
         node_dir = self.config['dummy_node_dir']
@@ -161,7 +169,7 @@ class EsiFunctionalBase(base.ClientTestBase):
             os.write(node_fd, ('%s\n' % line).encode())
         os.close(node_fd)
 
-        self.addCleanup(os.remove, node_path)
+        self._cleanups.append([os.remove, node_path])
         return { 'path': node_path, 'uuid': os.path.basename(node_path) }
 
     def _kwargs_to_flags(self, args):
@@ -195,7 +203,7 @@ class EsiFunctionalBase(base.ClientTestBase):
         return default
 
     def parse_details(self, output):
-        listing = self.parser.listing(output)
+        listing = output_parser.listing(output)
         details = {}
         for item in listing:
             details.update({ item['Field']: item['Value'] })

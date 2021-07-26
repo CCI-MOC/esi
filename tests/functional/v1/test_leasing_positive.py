@@ -1,17 +1,23 @@
 import tests.functional.base as base
 
 class PositiveLeasingTests(base.EsiFunctionalBase):
+    @classmethod
+    def setUpClass(cls):
+        super(PositiveLeasingTests, cls).setUpClass()
+        cls._init_dummy_cloud(cls, 'owner', 'owner')
+        cls._init_dummy_cloud(cls, 'lessee', 'lessee')
+
+        cls._init_client(cls, 'owner')
+        cls._init_client(cls, 'lessee')
+
+        cls.dummy_node = cls._new_dummy_node(cls, 'owner')
+        cls.offers = {}
+        cls.leases = {}
+
     def setUp(self):
         super(PositiveLeasingTests, self).setUp()
-        self._init_dummy_cloud('owner', 'owner')
-        self._init_dummy_cloud('lessee', 'lessee')
-
-        self._init_client('owner')
-        self._init_client('lessee')
-
-        self.dummy_node = self._new_dummy_node('owner')
-        self.offers = {}
-        self.leases = {}
+        self.clients = PositiveLeasingTests.clients
+        self.dummy_node = PositiveLeasingTests.dummy_node
 
     def test_offer_create(self):
         """ Tests basic functionality for offer create.
