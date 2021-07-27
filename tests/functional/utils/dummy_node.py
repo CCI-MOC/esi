@@ -6,7 +6,7 @@ class DummyNode():
         if not os.path.exists(node_dir):
             os.mkdir(node_dir)
         elif not os.path.isdir(node_dir):
-            raise OSError('Error creating dummy node @ %s: not a directory'
+            raise NotADirectoryError('Invalid value for dummy_node_dir: %s'
                     % node_dir)
 
         dummy_node_info = [
