@@ -1,5 +1,3 @@
-clouds.yaml
-
 .tox
 .stestr
 __pycache__
