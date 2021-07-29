@@ -2,11 +2,11 @@ import tests.functional.base as base
 import tests.functional.utils.output_utils as utils
 
 class ESIBaseTestClass(base.ESIFunctionalBase):
-    def offer_create(self, client, node, parse=True, **kwargs):
+    def offer_create(self, client, node_uuid, parse=True, **kwargs):
         valid_flags = ('resource_type', 'start_time', 'end_time', 'lessee',
                 'name', 'properties')
         flags = utils.kwargs_to_flags(valid_flags, kwargs)
-        output = client.esi('offer create', flags, node.uuid)
+        output = client.esi('offer create', flags, node_uuid)
 
         return utils.parse_details(output) if parse else output
 
@@ -32,12 +32,12 @@ class ESIBaseTestClass(base.ESIFunctionalBase):
 
         return utils.parse_details(output) if parse else output
 
-    def lease_create(self, client, node, lessee, parse=True, **kwargs):
+    def lease_create(self, client, node_uuid, lessee, parse=True, **kwargs):
         valid_flags = ('resource_type', 'start_time', 'end_time', 'name',
                 'properties')
         flags = utils.kwargs_to_flags(valid_flags, kwargs)
         output = client.esi('lease create', flags, '%s %s' %
-                (node.uuid, lessee))
+                (node_uuid, lessee))
 
         return utils.parse_details(output) if parse else output
 

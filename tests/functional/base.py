@@ -2,9 +2,11 @@ import os
 import configparser
 from tempest.lib.cli import base
 from tempest.lib.common.utils import data_utils
+
 from tests.functional.utils.output_utils import parse_details
 
 class ESIFunctionalBase(base.ClientTestBase):
+    # TODO: refactor this to follow tempest style guide (no setUpClass)
     @classmethod
     def setUpClass(cls):
         super(ESIFunctionalBase, cls).setUpClass()
@@ -83,6 +85,8 @@ class ESIFunctionalBase(base.ClientTestBase):
                 uri=auth['auth_url'])
         
     def _init_dummy_cloud(self, name, role):
+        # TODO: Implement subproject creation, unprivileged user creation,
+        #       and assignment of project membership to users
         if role not in ('owner', 'lessee'):
             raise Exception('unknown role: %s' % role)
 
