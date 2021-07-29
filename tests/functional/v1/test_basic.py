@@ -197,8 +197,9 @@ class PositiveTests(ESIBaseTestClass):
             4) Check that the command failed. (returned non-zero exit code) """
         fake_name = data_utils.rand_name('does-not-exist', prefix='')
         e = self.assertRaises(CommandFailed, self.offer_create,
-                self.clients['owner'], fake_name)
+                self.clients['owner'], fake_name, resource_type='dummy_node')
 
         e = self.assertRaises(CommandFailed, self.lease_create,
                 self.clients['owner'],
-                self.client_info['lessee']['project_name'], fake_name)
+                self.client_info['lessee']['project_name'], fake_name,
+                resource_type='dummy_node')
