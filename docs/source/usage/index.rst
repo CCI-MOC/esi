@@ -15,7 +15,7 @@ ESI accommodates three roles:
 * **Lessee**
    * Can only view nodes that they have leased.
    * Has temporary use of their nodes for the duration of the lease.
-   * Leases out a node from an available offer.
+   * Obtains a lease on a node by claiming an available offer.
 
 Once a node is assigned to an owner or lessee, they can use existing OpenStack CLI commands to work with that node (as limited by Ironic policy); see the `Ironic CLI reference`_ for more information.
 
@@ -93,6 +93,24 @@ Users can view available offers and claim an offer to create a lease.
 +--------------+--------------------------------------------------------------------------------------------+
 | Delete Lease | ``openstack esi lease delete <lease_uuid>``                                                |
 +--------------+--------------------------------------------------------------------------------------------+
+
+Subleases
+~~~~~~~~~
+
+A lessee can perform owner actions on a node that they have leased, effectively subleasing a node. Note that a sublessee cannot further sublease a node.
+
+Limited Offers and Subprojects
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+An offer can be made available to a limited number of projects by using the ``--lessee`` option when creating the offer.
+
++----------------------+------------------------------------------------------------------------------------------------------------------------------+
+|                      | **Owner Actions**                                                                                                            |
++----------------------+------------------------------------------------------------------------------------------------------------------------------+
+| Create Limited Offer | ``openstack esi offer create --start-time <start_time> --end-time <end_time> --lessee <lessee_project> <node_uuid_or_name>`` |
++----------------------+------------------------------------------------------------------------------------------------------------------------------+
+
+An offer created in such a way is available not only to the lessee project, but to the entire subtree of projects beneath the lessee project. As a result, using this feature effectively requires projects to be carefully organized.
 
 Resource Isolation and Sharing
 ------------------------------
@@ -202,7 +220,16 @@ In order to use an external provisioning service, simply attach the node to the 
 Additional ESI CLI Actions
 --------------------------
 
-`python-esiclient`_ provides additional commands that combine multiple OpenStack CLI functions into a single action.
+`python-esiclient`_ and `python-esileapclient`_ provide additional commands that combine multiple OpenStack CLI functions into a single action.
+
+Node/Lease Information
+~~~~~~~~~~~~~~~~~~~~~~
+
++------------------------------+-----------------------------+
+|                              | **Actions**                 |
++------------------------------+-----------------------------+
+| List Nodes with Lease Status | ``openstack esi node list`` |
++------------------------------+-----------------------------+
 
 Node/Network Management
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -239,3 +266,4 @@ Trunk Ports
 .. _Metalsmith: https://docs.openstack.org/metalsmith/latest/
 .. _Ironic boot-from-volume documentation: https://docs.openstack.org/ironic/latest/admin/boot-from-volume.html
 .. _python-esiclient: https://github.com/CCI-MOC/python-esiclient
+.. _python-esileapclient: https://github.com/CCI-MOC/python-esileapclient
