@@ -28,11 +28,11 @@ The following patches may be of use. Depending on your OpenStack version, they m
 +---------------------+---------------------------------------------------+--------------------------+
 |                     | *Non-Admin Boot from Volume*                      |                          |
 +---------------------+---------------------------------------------------+--------------------------+
-| ironic              | `Allow instance_info to override node interface`_ | Merged upstream          |
+| ironic              | `Allow instance_info to override node interface`_ | Released in **Wallaby**  |
 +---------------------+---------------------------------------------------+--------------------------+
 |                     | *Trunk Ports*                                     |                          |
 +---------------------+---------------------------------------------------+--------------------------+
-| network-runner      | `Add kwargs to trunk ports`_                      | Merged upstream          |
+| network-runner      | `Add kwargs to trunk ports`_                      | Released in **0.2.3**    |
 +---------------------+---------------------------------------------------+--------------------------+
 | networking-ansible  | `Correct port detachment`_                        | Released in **Victoria** |
 +---------------------+---------------------------------------------------+--------------------------+
