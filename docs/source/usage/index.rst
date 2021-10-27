@@ -195,7 +195,7 @@ Image-based provisioning can be accomplished through the use of `Metalsmith`_. I
 Volume
 ~~~~~~
 
-The process for booting a node from a volume is described in the `Ironic boot-from-volume documentation`_. There are two things to note for non-admin deployments:
+In order to boot a node from a volume, two node attributes must be set as follows:
 
 * The node owner or admin should set the `iscsi_boot` node capability prior to leasing the node.
 * The node lessee should not be allowed to edit the `storage_interface` node attribute. Instead, they can run the following command to temporarily override that value (until the node is cleaned):
@@ -205,6 +205,14 @@ The process for booting a node from a volume is described in the `Ironic boot-fr
 +----------------------------+----------------------------------------------------------------------------------+
 | Override Storage Interface | ``openstack baremetal node set --instance-info storage_interface=cinder <node>`` |
 +----------------------------+----------------------------------------------------------------------------------+
+
+The process for booting a node from a volume is described in the `Ironic boot-from-volume documentation`_. You can also use `python-esiclient`_ to run that workflow with a single command:
+
++-----------------------+--------------------------------------------------------------------------------------------+
+|                       | **Actions**                                                                                |
++-----------------------+--------------------------------------------------------------------------------------------+
+| Boot Node from Volume | ``openstack esi node volume attach (--network <network> | --port <port>) <node> <volume>`` |
++-----------------------+--------------------------------------------------------------------------------------------+
 
 External Provisioning
 ~~~~~~~~~~~~~~~~~~~~~
@@ -243,6 +251,15 @@ Node/Network Management
 +-------------------------------+------------------------------------------------------------------------------------+
 | Detach Network from Node      | ``openstack esi node network detach <node> <port>``                                |
 +-------------------------------+------------------------------------------------------------------------------------+
+
+Boot Node from Volume
+~~~~~~~~~~~~~~~~~~~~~
+
++-----------------------+--------------------------------------------------------------------------------------------+
+|                       | **Actions**                                                                                |
++-----------------------+--------------------------------------------------------------------------------------------+
+| Boot Node from Volume | ``openstack esi node volume attach (--network <network> | --port <port>) <node> <volume>`` |
++-----------------------+--------------------------------------------------------------------------------------------+
 
 Trunk Ports
 ~~~~~~~~~~~
