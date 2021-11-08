@@ -128,11 +128,11 @@
 
 # Get Node console connection information
 # GET  /nodes/{node_ident}/states/console
-#"baremetal:node:get_console": "rule:is_admin"
+#"baremetal:node:get_console": "rule:is_admin or rule:is_node_owner or rule:is_node_lessee"
 
 # Change Node console status
 # PUT  /nodes/{node_ident}/states/console
-#"baremetal:node:set_console_state": "rule:is_admin"
+#"baremetal:node:set_console_state": "rule:is_admin or rule:is_node_owner or rule:is_node_lessee"
 
 # List VIFs attached to node
 # GET  /nodes/{node_ident}/vifs
