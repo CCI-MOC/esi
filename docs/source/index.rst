@@ -13,6 +13,7 @@ ESI is a hardware isolation project built on top of OpenStack that allows multip
    usage/index
    install/index
    developer/index
+   keylime/index
 
 .. _video: https://www.youtube.com/watch?v=o5g85SrPEWI
 .. _PDF: https://research.redhat.com/esi_ironic-presentation/
