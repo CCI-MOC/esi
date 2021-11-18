@@ -225,6 +225,43 @@ In order to use an external provisioning service, simply attach the node to the 
 | Attach Network to Node        | ``openstack esi node network attach (--network <network> | --port <port>) <node>`` |
 +-------------------------------+------------------------------------------------------------------------------------+
 
+Serial Console Access
+---------------------
+
+In order to access a node using a serial console, the admin or owner must configure the node's console interface.
+Instructions for this can be found under `Configuring Web or Serial Console`_ in Ironic's documentation.
+Once the node is properly configured, the console can be enabled and disabled as needed.
+
++-----------------+-----------------------------------------------------+
+|                 | **Actions**                                         |
++-----------------+-----------------------------------------------------+
+| Enable Console  | ``openstack baremetal node console enable <node>``  |
++-----------------+-----------------------------------------------------+
+| Disable Console | ``openstack baremetal node console disable <node>`` |
++-----------------+-----------------------------------------------------+
+
+Serial console information is available from the Bare Metal service. Get
+serial console information for a node from the Bare Metal service as follows:
+
++---------------------------+--------------------------------------------------+
+|                           | **Actions**                                      |
++---------------------------+--------------------------------------------------+
+| Show Console Information  | ``openstack baremetal node console show <node>`` |
++---------------------------+--------------------------------------------------+
+
+``openstack baremetal node console show <node>`` will generate the following output:
+
++-----------------+----------------------------------------------------------------------+
+| Property        | Value                                                                |
++-----------------+----------------------------------------------------------------------+
+| console_enabled | True                                                                 |
++-----------------+----------------------------------------------------------------------+
+| console_info    | {u'url': u'``tcp://<host>:<port>``', u'type': u'socat'}              |
++-----------------+----------------------------------------------------------------------+
+
+If ``console_enabled`` is ``false`` or ``console_info`` is ``None`` then
+the serial console is disabled. Note, there can only be one ipmi connection to the node, meaning only one user may access the console at a time.
+
 Additional ESI CLI Actions
 --------------------------
 
@@ -284,3 +321,4 @@ Trunk Ports
 .. _Ironic boot-from-volume documentation: https://docs.openstack.org/ironic/latest/admin/boot-from-volume.html
 .. _python-esiclient: https://github.com/CCI-MOC/python-esiclient
 .. _python-esileapclient: https://github.com/CCI-MOC/python-esileapclient
+.. _Configuring Web or Serial Console: https://docs.openstack.org/ironic/latest/admin/console.html
