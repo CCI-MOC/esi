@@ -42,6 +42,7 @@ release = u''
 # ones.
 extensions = [
     "sphinx_rtd_theme",
+    "sphinx-prompt",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
