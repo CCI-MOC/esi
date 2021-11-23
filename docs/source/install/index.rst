@@ -26,9 +26,11 @@ The following patches may be of use. Depending on your OpenStack version, they m
 +---------------------+---------------------------------------------------+--------------------------+
 | python-ironicclient | `Add port-uuid parameter to node vif attach`_     | Released in **Victoria** |
 +---------------------+---------------------------------------------------+--------------------------+
-|                     | *Non-Admin Boot from Volume*                      |                          |
+|                     | *Non-Admin Interface Override*                    |                          |
 +---------------------+---------------------------------------------------+--------------------------+
 | ironic              | `Allow instance_info to override node interface`_ | Released in **Wallaby**  |
++---------------------+---------------------------------------------------+--------------------------+
+| ironic              | `Create node get_interface method`_               | Merged **Upstream**      |
 +---------------------+---------------------------------------------------+--------------------------+
 |                     | *Trunk Ports*                                     |                          |
 +---------------------+---------------------------------------------------+--------------------------+
@@ -72,3 +74,4 @@ these tests can be found within their respecitive repositories:
 .. _Add kwargs to trunk ports: https://github.com/ansible-network/network-runner/pull/48
 .. _Correct port detachment: https://review.opendev.org/#/c/745318/
 .. _Allow instance_info to override node interface: https://review.opendev.org/c/openstack/ironic/+/777434
+.. _Create node get_interface method: https://review.opendev.org/c/openstack/ironic/+/817086
