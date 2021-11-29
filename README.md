@@ -11,12 +11,13 @@ We want to create a set of services/systems to permit multiple tenants to flexib
 - [ESI Leap](https://github.com/cci-moc/esi-leap): a simple leasing service
     - [python-esileapclient](https://github.com/cci-moc/python-esileapclient)
 - [python-esiclient](https://github.com/CCI-MOC/python-esiclient): CLI commands to simplify OpenStack workflows
+- Test deployment of single-cloud hardware leasing system in [Mass Open Cloud (MOC)](https://massopen.cloud/)
+    - External provisioning tests
 
 ### Current
 
 - Test deployment of single-cloud hardware leasing system in [Mass Open Cloud (MOC)](https://massopen.cloud/)
-    - External provisioning tests
-    - Scale testing
+    - Scale testing [[network](docs/network-load-testing.md)]
     - Usability tests
     - Test of [Cinder Ceph ISCSI driver](https://review.opendev.org/#/c/662829/)
 - Integration of [Keylime](https://keylime.dev/) attestation in Ironic
