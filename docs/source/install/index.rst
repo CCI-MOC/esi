@@ -32,6 +32,8 @@ The following patches may be of use. Depending on your OpenStack version, they m
 +---------------------+---------------------------------------------------+--------------------------+
 | ironic              | `Create node get_interface method`_               | Merged **Upstream**      |
 +---------------------+---------------------------------------------------+--------------------------+
+| ironic              | `Fix restricted allocation creation`_             | Merged **Upstream**      |
++---------------------+---------------------------------------------------+--------------------------+
 |                     | *Trunk Ports*                                     |                          |
 +---------------------+---------------------------------------------------+--------------------------+
 | network-runner      | `Add kwargs to trunk ports`_                      | Released in **0.2.3**    |
@@ -75,3 +77,4 @@ these tests can be found within their respecitive repositories:
 .. _Correct port detachment: https://review.opendev.org/#/c/745318/
 .. _Allow instance_info to override node interface: https://review.opendev.org/c/openstack/ironic/+/777434
 .. _Create node get_interface method: https://review.opendev.org/c/openstack/ironic/+/817086
+.. _Fix restricted allocation creation: https://review.opendev.org/c/openstack/ironic/+/812007
