@@ -1,27 +1,30 @@
 Keylime
 =======
 
-ESI provides a guide to use `Keylime`_ outside Ironic for run-time attestation with `IMA`_.
+ESI provides a guide to use `Keylime`_ outside Ironic for run-time attestation with `IMA`_ and boot measurement with `Secure Boot_`.
 
 Prerequisites
 -------------
 * A private attestation network.
 * An optional public network to acquire Keylime.
 * A node specified as Keylime server.
-* The nodes-to-be-attested with an active TPM 2.0 and keylime agent installed.
+* The nodes-to-be-attested must have an active TPM 2.0 and keylime agent installed.
+* For boot attestation, the nodes-to-be-attestated must have a BIOS with UEFI Secure Boot enabled and must boot a recent enough version of the Linux kernel (5.4 or later). 
 
 Setup
 -----
 
 Build Keylime Server
 ~~~~~~~~~~~~~~~~~~~~
-Provision the node:
 
+Provision the Node
+^^^^^^^^^^^^^^^^^^
 .. prompt:: bash $
 
   metalsmith deploy --image <image> --network <attestation_network> --resource-class baremetal --ssh-public-key <path_to_public_key>
 
-Install Keylime packages:
+Install Keylime Packages
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 * Note: the server needs to be connected to the public internet in order to download Keylime packages. Attaching the node to the public network could be as simple as running the command ``openstack esi node network attach --network <public_network> <node>``.
 * After the node is active, ssh into it. There are various ways to acquire Keylime. One possible way is listed below:
@@ -31,7 +34,8 @@ Install Keylime packages:
     git clone https://github.com/keylime/keylime.git
     cd keylime && ./installer.sh
 
-Modify /etc/keylime.conf:
+Modify /etc/keylime.conf
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 * Set ``require_ek_cert`` to false if the physical TPM does not have EK certificates.
 * Set the binding address for verifier and registrar, for example:
@@ -44,7 +48,26 @@ Modify /etc/keylime.conf:
     [registrar]
     registrar_ip = 0.0.0.0
 
-Start Keylime services:
+(Optional) Enable Boot Measurement Attestation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To work with boot measurement, a few extra steps are needed.
+
+Boot measurement attestation is performed by a policy validator scipt run by the Keylime verifier.
+
+A policy script must be placed on the machine running the Keylime verifier and registered. Policies can be registered by
+calling keylime.elchecking.policies.register and passing in the name of the policy to be used by the Keylime config file, as well as the policy object from your policy file.
+
+From here, the policy can be set in the Keylime config file:
+
+  .. prompt::
+    
+    [measured_boot_policy_name] = policy_name
+
+The policy file will generate a measured boot reference state from the UEFI Secure Boot eventlogs to compare with measured boot reference state the user will provide as a golden state.
+
+Start Keylime Services
+^^^^^^^^^^^^^^^^^^^^^^
 
 * Note: if the node is not on the attestation network, it should now be put there using ``openstack esi node network attach --network <attestation_network> <node>``.
 
@@ -108,9 +131,9 @@ Provision the Node-to-be-attested
 
 If using the keylime-image built with diskimage-builder, keylime-agent will start as a system service at boot time, generate its UUID, and register itself with the registrar service. Check the keylime-agent log to get agent UUID.
 
-Trigger the Attestation
-~~~~~~~~~~~~~~~~~~~~~~~
-Attestation could be triggered from the Keylime server machine or a third machine. If doing it from a third machine, make sure:
+Trigger the Runtime Attestation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Runtime attestation can be triggered from the Keylime server machine or a third machine. If doing it from a third machine, make sure:
 
 * this machine is in the same private attestation network.
 * client certificates in /var/lib/keylime/cv_ca/ are copied from Keylime server.
@@ -119,7 +142,7 @@ Attestation could be triggered from the Keylime server machine or a third machin
 
 Exclude list is a text file of directories or files which will be ignored when checking the gathered IMA measurements of a node. For example, the tmp directory can be ignored by adding ``/tmp/.*`` into exclude list.
 
-Call keylime-tenant to start attestation:
+Call keylime-tenant to start runtime attestation:
 
 .. prompt:: bash $
 
@@ -131,7 +154,25 @@ Stop Keylime from requesting attestation:
 
   keylime_tenant -c delete -u <agent_uuid>
 
+Trigger Boot Measurement Attestation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Boot Measurement Attestation should be triggered with the same tenant call used to provision the Keylime agent and trigger runtime attestation.
+
+Use the flag as follows when calling the tenant
+
+  .. prompt:: bash $
+  
+    --mb-refstate <path/measured_boot_reference_state.txt>
+
+So in all a call to trigger runtime and boot measurement attestation would be constructed as follows:
+
+.. prompt:: bash $
+
+  keylime_tenant -v <keylime_verifier_ip> -vp <keylime_verifier_port> -r <keylime_registrar_ip> -rp <keylime_registrar_port> -t <keylime_agent_ip> -tp <keylime_agent_port> -f <excludelist_path> --uuid <agent_uuid> --allowlist <allowlist_path> --exclude <excludelist_path> --mb-refstate <path/measured_boot_reference_state.txt> -c add
+
 .. _keylime: https://github.com/keylime/keylime
 .. _IMA: https://keylime-docs.readthedocs.io/en/latest/user_guide/runtime_ima.html
 .. _Diskimage-builder tool: https://docs.openstack.org/diskimage-builder/latest/
 .. _instruction: https://github.com/keylime/keylime#manual
+.. _Secure Boot: https://keylime-docs.readthedocs.io/en/latest/user_guide/use_measured_boot.html
