@@ -23,3 +23,4 @@ ESI accommodates three roles:
    cli
    openshift
    keylime
+   security_recommendations
