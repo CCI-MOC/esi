@@ -1,0 +1,19 @@
+Metadata-Version: 2.1
+Name: esi
+Version: 0.0.0
+Summary: esi documentation
+Home-page: https://github.com/cci-moc/esi
+Author: Red Hat, Inc.
+Author-email: tzumainn@redhat.com
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intented Audience :: System Administrators
+Classifier: Intended Audience :: Information Technology
+Classifier: Topic :: Utlities
+License-File: LICENSE
+
+UNKNOWN
+
