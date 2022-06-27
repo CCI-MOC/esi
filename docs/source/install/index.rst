@@ -54,7 +54,11 @@ Two additional ESI add-ons provide additional functionality:
    * `python-esileapclient`_
 * `python-esiclient`_: additional OpenStack CLI commands that provide ease of use for users
 
-Instructions for installing these add-ons can be found within the linked repositories.
+Instructions for installing these add-ons can be found as follows.
+
+* `pip install esi-leap`
+* `pip install python-esileapclient`
+* `pip install python-esiclient`
 
 Functional Tests
 ----------------
