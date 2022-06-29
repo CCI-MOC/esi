@@ -247,6 +247,27 @@ The clean and deploy steps provided in this section allow an owner to configure 
 Notes:
   * It is not mandatory to use export_configuration step to create a configuration mold. Upload the file to a designated storage location without using Ironic if it has been created manually or by other means.
 
+
+Other Security Risks and Suggested Measures
+-------------------------------------------
+
+1. There are `two specific endpoints`_ in the Ironic Bare Metal API that are intended for use by the ironic-python-agent RAM disk. They are not intended for public use, These endpoints can potentially cause security issues. Access to these endpoints from external or untrusted networks should to be prohibited.
+|br|
+
+2. Baseboard management controller(BMC) drivers besides BIOS and iDRAC, have not been tested for node rescue and recovery measures yet. Proceed with caution when making modifications in the BMC; as a connection failure is possible, and a data center visit may be needed to fix such a node failure.
+|br|
+
+3. An infected bare metal node can attack other connected nodes in the same group if there are no firewall rules in place. Certain measures by owners and admins can ensure additional safety and security. These measures can be: the use of network groups, creation of firewall groups, avoiding the use of same driver passwords across multiple nodes.
+|br|
+
+4. Use of bare metal hardware for activities such as, mining cryptocurrency, overclocking the CPU cores to boost compute perforance, or excessive usage of hard disk space as virtual memory(VRAM) to boost memory perforance, can have a negative impact on bare metal hardware health, and lifespan. Discussing the terms of a lease before leasing a node is recommended.
+|br|
+
+5. An admin may not be able keep an active track of activites and usage of a bare metal node under lease in a non-inasive way; but it is possible to monitor sensor information of a lessee node through serial console by accessing the BMC firware. The sensor information such as cpu core temperatures, cpu voltages, I/O rates, network traffic and fan rpm can be monitor to ensure that the node is in a healthy state.
+|br|
+
+
+
 .. _Ironic.conf: https://access.redhat.com/documentation/en-us/red_hat_openstack_platform/16.0/html/configuration_reference/ironic
 .. _specify BIOS settings: https://docs.openstack.org/ironic/latest/admin/bios.html
 .. _iDRAC: https://docs.openstack.org/ironic/latest/admin/drivers/idrac.html
@@ -255,3 +276,7 @@ Notes:
 .. _reset: https://www.delltechnologies.com/asset/en-us/products/servers/technical-support/managing-dell-emc-hardware-with-openstack-ironic-idrac-driver-2-0.pdf#page=18
 .. _required libraries: https://docs.openstack.org/ironic/latest/admin/drivers/idrac.html#prerequisites
 .. _enable iDRAC hardware type: https://docs.openstack.org/ironic/latest/admin/drivers/idrac.html#enabling
+.. _two specific endpoints: https://docs.openstack.org/api-ref/baremetal/#utility
+.. |br| raw:: html
+
+      <br>
