@@ -1,5 +1,5 @@
-OpenShift
-=========
+Installing OpenShift on ESI
+===========================
 
 Owners and lessees can easily install OpenShift on hardware managed through ESI through the use of the `OpenShift Assisted Installer`_. This guide assumes that the relevant roles have been granted access to the required Ironic actions.
 
