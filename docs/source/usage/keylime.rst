@@ -1,5 +1,5 @@
-Keylime
-=======
+Installing Keylime on ESI
+=========================
 
 ESI provides a guide to use `Keylime`_ outside Ironic for run-time attestation with `IMA`_ and boot measurement with `Secure Boot_`.
 

@@ -17,11 +17,15 @@ ESI accommodates three roles:
    * Has temporary use of their nodes for the duration of the lease.
    * Obtains a lease on a node by claiming an available offer.
 
+~ESI Administrator Owns All Nodes
+In this scenario, there are no node owners. Instead, the ESI administrator controls access to each and every node. They do so using the mechanisms described in [Lessee Node Assignment]. We recommend using ESI-Leap for reporting purposes.
+Multiple Node Owners Pool Nodes in ESI
+In this scenario, multiple node owners pool their hardware together in a single ESI instance. The owners can then use their hardware themselves, or use the mechanisms described in [Lessee Node Assignment]. We recommend using ESI-Leap for reporting purposes.
+~
+
 .. toctree::
    :maxdepth: 2
 
    cli
    openshift
    keylime
-   security_recommendations
-   node_cleaning

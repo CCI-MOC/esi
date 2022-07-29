@@ -1,5 +1,5 @@
-Node Cleaning and Maintenance
-=============================
+Configuring Node Cleaning and Maintenance
+=========================================
 
 Ironic uses two main methods to perform actions on a node: `in-band and out-of-band`_. Ironic supports using both methods to clean a node. Further, Ironic provides two ways of cleaning a node: automated and manual.
 
