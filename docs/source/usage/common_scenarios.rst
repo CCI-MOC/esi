@@ -34,7 +34,7 @@ Multiple lessees can claim the same offer as long as their start and end times d
 Lease Reporting
 ---------------
 
-In order to create a report regarding leases, use the ``openstack esi lease list`` command. By default, this will print current leases to the output. The command can be modified in a variety of ways: 
+In order to create a report regarding leases, use the ``openstack esi lease list`` command. By default, this will print current leases to the output. The command can be modified in a variety of ways:
 
   .. prompt:: bash $
 
@@ -67,6 +67,6 @@ In order for the lessee to access a node on a private network, they can do one o
 
     openstack esi trunk create --native-network <accessible network> <trunk name>
     openstack esi trunk add network --tagged-networks <private network> <trunk name>
-    openstack esi node network attach --port <trunk port> <node>
+    openstack esi node network attach --trunk <trunk name> <node>
 
 .. _ESI Leap: https://github.com/CCI-MOC/esi-leap
