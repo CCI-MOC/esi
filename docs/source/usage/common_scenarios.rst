@@ -69,4 +69,60 @@ In order for the lessee to access a node on a private network, they can do one o
     openstack esi trunk add network --tagged-networks <private network> <trunk name>
     openstack esi node network attach --trunk <trunk name> <node>
 
+Using External Networks
+-----------------------
+
+The recommended way to allow external network access to a baremetal node is by `creating a shared external provider network`_. The instructions in the link explain how; in addition, this network should be created as ``--provider-network-type vlan`` with the appropriate vlan specified by ``--provider-segment``.
+
+Once that's done, a lessee can provision a node upon their provisioning network and then gain external network access using one of two methods.
+
+Floating IP
+~~~~~~~~~~~
+
+In order to use a floating IP, start by creating a router for the external network and configuring it for your provisioning network:
+
+  .. prompt:: bash $
+
+    openstack router create external-router
+    openstack router set --external-gateway <external network> external-router
+    openstack router add subnet external-router <provisioning subnet>
+
+Once that's done, you can create a floating IP and associate it with the node's port (which can be found by running ``openstack esi node network list``):
+
+  .. prompt:: bash $
+
+    openstack floating ip create <external network>
+    openstack floating ip set --port <port> <floating ip>
+
+Direct Connection
+~~~~~~~~~~~~~~~~~
+
+If you do not need access to a provisioning network, you can simply attach the external network to the node:
+
+  .. prompt:: bash $
+
+    openstack esi node network detach <node> <port>
+    openstack esi node network attach --network <external name> <node>
+
+
+Direct Connection - Trunk Port
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you need access to multiple networks through a single NIC, you can use a trunk port:
+
+  .. prompt:: bash $
+
+    openstack esi trunk create --native-network <provisioning network> <trunk name>
+    openstack esi trunk add network --tagged-networks <external network> <trunk name>
+
+After provisioning, detach the node from the provisioning network (using the port information found by running ``openstack esi node network list``) and then attach the trunk: 
+
+  .. prompt:: bash $
+
+    openstack esi node network detach <node> <port>
+    openstack esi node network attach --trunk <trunk name> <node>
+
+Access the node through the provisioning network or a serial console, and create a new network interface configuration for the external network.
+
 .. _ESI Leap: https://github.com/CCI-MOC/esi-leap
+.. _creating a shared external provider network: https://docs.openstack.org/install-guide/launch-instance-networks-provider.html
