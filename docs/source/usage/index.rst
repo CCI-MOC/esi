@@ -27,9 +27,10 @@ ESI will typically be used to fulfill one of two broad scenarios:
 .. toctree::
    :maxdepth: 2
 
-   common_scenarios
-   cli
+   lease_management
+   network_scenarios
    openshift
    keylime
+   cli
 
 .. _Lessee Node Assignment: common_scenarios.html#lessee-node-assignment

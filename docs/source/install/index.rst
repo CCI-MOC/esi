@@ -13,6 +13,7 @@ The key feature that needs to be configured is `Ironic node multi-tenancy`_. Con
 .. toctree::
    :maxdepth: 2
 
+   external_network
    additional_patches
    esi_add_ons
    functional_tests
