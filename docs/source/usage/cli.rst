@@ -282,6 +282,17 @@ Boot Node from Volume
 | Boot Node from Volume | ``openstack esi node volume attach (--network <network> | --port <port>) <node> <volume>`` |
 +-----------------------+--------------------------------------------------------------------------------------------+
 
+Boot Node from Disk
+~~~~~~~~~~~~~~~~~~~~~
+
++-----------------------+--------------------------------------------------------------------------------------------+
+|                       | **Actions**                                                                                |
++-----------------------+--------------------------------------------------------------------------------------------+
+| Boot Node from Disk   | ``openstack baremetal node boot device set <node> disk (--persistent)``                    |
++-----------------------+--------------------------------------------------------------------------------------------+
+
+If not adding ``--persistent``, the node will only boot from device once. Conversely, ``--persistent`` makes changes persistent for all future boots until the node is cleaned.
+
 Trunk Ports
 ~~~~~~~~~~~
 

@@ -38,7 +38,7 @@ Prepare Cluster on Assisted Installer
 * In the 'Host discovery' step, click the 'Add hosts' button
    * Select 'Minimal image file: Provision with virtual media'
    * Input your SSH public key
-   * Click 'Generate Discovery ISO' and record the Discovery ISO URL 
+   * Click 'Generate Discovery ISO' and record the Discovery ISO URL
 
 Configure Ironic Nodes
 ----------------------
@@ -73,7 +73,7 @@ Deploy
     openstack esi node network list    # find names of ports attached to nodes
     openstack esi node network detach <node> <port>
     openstack esi node network attach --network <private network> <node>
-    openstack baremetal node boot device set <node> disk
+    openstack baremetal node boot device set <node> disk --persistent
 
 * Wait for the nodes to be Ready again. Once they are, select your nodes and click 'Next'.
 * In the 'Networking' step, assign an API IP and an Ingress IP. These IPs should be in your private subnet range, outside of its allocation pool. Wait for the nodes in the 'Host inventory' section to be Ready (this may take a few minutes). Once they are, click 'Next'.
@@ -112,7 +112,7 @@ Add Hosts
 * Click on the 'Add hosts' button.
    * Select 'Minimal image file: Provision with virtual media'
    * Input your SSH public key
-   * Click 'Generate Discovery ISO' and record the Discovery ISO URL 
+   * Click 'Generate Discovery ISO' and record the Discovery ISO URL
 * Run these commands to configure your nodes to boot from the generated OpenShift ISO and to attach it to the provisioning network:
 
   .. prompt:: bash $
@@ -134,7 +134,7 @@ Add Hosts
     openstack esi node network list    # find names of ports attached to nodes
     openstack esi node network detach <node> <port>
     openstack esi node network attach --network <private network> <node>
-    openstack baremetal node boot device set <node> disk
+    openstack baremetal node boot device set <node> disk --persistent
 
 * Wait for the nodes to be Ready. In order to do so, you may have to do the following:
    * Assign an external floating IP to the node and log in as the `core` user.
