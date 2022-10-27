@@ -216,6 +216,11 @@ In order to access a node using a serial console, the admin or owner must config
 Instructions for this can be found under `Configuring Web or Serial Console`_ in Ironic's documentation.
 Once the node is properly configured, the console can be enabled and disabled as needed.
 
+Following is the pre-requisite for functioning of serial console:
+
+* The ``ipmi_terminal_port`` port must be unique and only the admin or node owner can set this value.
+* The admin must open the firewall on the controller to allow TCP connections on the port.
+
 +-----------------+-----------------------------------------------------+
 |                 | **Actions**                                         |
 +-----------------+-----------------------------------------------------+
@@ -243,8 +248,13 @@ serial console information for a node from the Bare Metal service as follows:
 | console_info    | {u'url': u'``tcp://<host>:<port>``', u'type': u'socat'}              |
 +-----------------+----------------------------------------------------------------------+
 
+If ``console_enabled`` is ``true``, we can access the serial console using following command:
+
+``socat - tcp:<host>:<port>``
+
 If ``console_enabled`` is ``false`` or ``console_info`` is ``None`` then
 the serial console is disabled. Note, there can only be one ipmi connection to the node, meaning only one user may access the console at a time.
+
 
 Additional ESI CLI Actions
 --------------------------
