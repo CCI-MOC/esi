@@ -18,9 +18,9 @@ The following patches may be of use. Depending on your OpenStack version, they m
 +---------------------+-----------------------------------------------------+--------------------------+
 | ironic              | `Allow instance_info to override node interface`_   | Released in **Wallaby**  |
 +---------------------+-----------------------------------------------------+--------------------------+
-| ironic              | `Create node get_interface method`_                 | Merged **Upstream**      |
+| ironic              | `Create node get_interface method`_                 | Released in **Yoga**     |
 +---------------------+-----------------------------------------------------+--------------------------+
-| ironic              | `Fix restricted allocation creation`_               | Merged **Upstream**      |
+| ironic              | `Fix restricted allocation creation`_               | Released in **Yoga**     |
 +---------------------+-----------------------------------------------------+--------------------------+
 |                     | *Trunk Ports*                                       |                          |
 +---------------------+-----------------------------------------------------+--------------------------+
