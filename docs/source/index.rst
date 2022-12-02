@@ -7,6 +7,8 @@ ESI is a hardware isolation project built on top of OpenStack that allows multip
 
 * ESI: How I Learned to Share My Hardware! [ `video`_ | `PDF`_ ]
 
+Installing and using ESI is easy: it's just `OpenStack with a specific configuration`_. A few `optional ESI components`_ can be installed for ease of use.
+
 .. toctree::
    :maxdepth: 2
 
@@ -16,3 +18,5 @@ ESI is a hardware isolation project built on top of OpenStack that allows multip
 
 .. _video: https://www.youtube.com/watch?v=o5g85SrPEWI
 .. _PDF: https://research.redhat.com/esi_ironic-presentation/
+.. _OpenStack with a specific configuration: install/index.html
+.. _optional ESI components: install/esi_add_ons.html
