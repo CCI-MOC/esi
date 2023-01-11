@@ -179,6 +179,14 @@ Image-based provisioning can be accomplished through the use of `Metalsmith`_. I
 Volume
 ~~~~~~
 
+If you'd like to create a volume from an image, run the following:
+
++--------------------------+------------------------------------------------------------------------------------------+
+|                          | **Actions**                                                                              |
++--------------------------+------------------------------------------------------------------------------------------+
+| Create Volume from Image | ``openstack volume create <volume-name> --image <image> --bootable --size <size-in-gb>`` |
++--------------------------+------------------------------------------------------------------------------------------+
+
 In order to boot a node from a volume, two node attributes must be set as follows:
 
 * The node owner or admin should set the `iscsi_boot` node capability prior to leasing the node.
