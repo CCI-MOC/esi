@@ -1,6 +1,14 @@
 Usage
 =====
 
+Lessee
+------
+
+Lessees with little to no experience with ESI should start with the `New User Guide`_.
+
+Operator
+--------
+
 ESI accommodates three roles:
 
 * **Admin**
@@ -24,13 +32,18 @@ ESI will typically be used to fulfill one of two broad scenarios:
 * **Multiple Node Owners Pool Nodes in ESI**
    * In this scenario, multiple node owners pool their hardware together in a single ESI instance. The owners can then use their hardware themselves, or use the mechanisms described in `Lessee Node Assignment`_ to give others access to their nodes.
 
+General Information
+-------------------
+
 .. toctree::
    :maxdepth: 2
 
+   new_user_guide
    lease_management
    network_scenarios
    openshift
    keylime
    cli
 
-.. _Lessee Node Assignment: common_scenarios.html#lessee-node-assignment
+.. _New User Guide: new_user_guide.html
+.. _Lessee Node Assignment: lease_management.html#lessee-node-assignment
