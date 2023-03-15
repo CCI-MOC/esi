@@ -22,15 +22,23 @@ The following patches may be of use. Depending on your OpenStack version, they m
 +---------------------+-----------------------------------------------------+--------------------------+
 | ironic              | `Fix restricted allocation creation`_               | Released in **Yoga**     |
 +---------------------+-----------------------------------------------------+--------------------------+
+|                     | *Configure Clean Step Priorites*                    |                          |
++---------------------+-----------------------------------------------------+--------------------------+
+| ironic              | `Enable priority overrides to enable/disable steps`_| Released in **Xena**     |
++---------------------+-----------------------------------------------------+--------------------------+
 |                     | *Trunk Ports*                                       |                          |
 +---------------------+-----------------------------------------------------+--------------------------+
 | network-runner      | `Add kwargs to trunk ports`_                        | Released in **0.2.3**    |
 +---------------------+-----------------------------------------------------+--------------------------+
 | networking-ansible  | `Correct port detachment`_                          | Released in **Victoria** |
 +---------------------+-----------------------------------------------------+--------------------------+
-|                     | *Configure Clean Step Priorites*                    |                          |
+| networking-ansible  | `Fix issue where binding info is missing`_          | **Under review**         |
 +---------------------+-----------------------------------------------------+--------------------------+
-| ironic              | `Enable priority overrides to enable/disable steps`_| Released in **Xena**     |
+|                     | *Support for Additional Switches*                   |                          |
++---------------------+-----------------------------------------------------+--------------------------+
+| network-runner      | `Add support for ExtremeNetworks NOS switches`_     | Merged **upstream**      |
++---------------------+-----------------------------------------------------+--------------------------+
+| network-runner      | `Improve performance of the NOS driver`_            | **Under review**         |
 +---------------------+-----------------------------------------------------+--------------------------+
 
 .. _Allow node lessee to see node's ports: https://review.opendev.org/c/openstack/ironic/+/730366
@@ -42,3 +50,7 @@ The following patches may be of use. Depending on your OpenStack version, they m
 .. _Create node get_interface method: https://review.opendev.org/c/openstack/ironic/+/817086
 .. _Fix restricted allocation creation: https://review.opendev.org/c/openstack/ironic/+/812007
 .. _Enable priority overrides to enable/disable steps: https://review.opendev.org/c/openstack/ironic/+/804156
+.. _Fix issue where binding info is missing: https://review.opendev.org/c/x/networking-ansible/+/872138
+.. _Add support for ExtremeNetworks NOS switches: https://github.com/ansible-network/network-runner/pull/73
+.. _Improve performance of the NOS driver: https://github.com/ansible-network/network-runner/pull/74
+
