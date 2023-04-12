@@ -43,7 +43,7 @@ Node Provisioning States (and what they mean)
 ``openstack baremetal node list`` and ``openstack esi node list`` both display a node's provisioning state. These states determine what actions can be performed upon a node.
 
 * **manage**: node is configured and ready to be cleaned
-* **available**: node has been cleaned and is ready for deployment 
+* **available**: node has been cleaned and is ready for deployment
 * **active**: node has been deployed
 * **cleaning**: node is in the process of being cleaned before being returned to the **available** state
 

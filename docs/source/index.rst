@@ -17,6 +17,7 @@ Installing and using ESI is easy: it's just `OpenStack with a specific configura
    usage/index
    install/index
    developer/index
+   moc-esi/index
    contact-us
 
 .. _video: https://www.youtube.com/watch?v=o5g85SrPEWI
