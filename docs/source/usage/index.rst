@@ -44,6 +44,7 @@ General Information
    openshift
    keylime
    cli
+   automated_workflows
 
 .. _New User Guide: new_user_guide.html
 .. _Lessee Node Assignment: lease_management.html#lessee-node-assignment
