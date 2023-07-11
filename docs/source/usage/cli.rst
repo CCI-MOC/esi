@@ -211,13 +211,46 @@ The process for booting a node from a volume is described in the `Ironic boot-fr
 External Provisioning
 ~~~~~~~~~~~~~~~~~~~~~
 
-In order to use an external provisioning service, simply attach the node to the appropriate network. You can do so through OpenStack Neutron and Ironic CLI commands; or use `python-esiclient`_:
+In order to use an external provisioning service, start by moving the node to the ``manageable`` state:
 
-+-------------------------------+------------------------------------------------------------------------------------------------------+
-|                               | **Actions**                                                                                          |
-+-------------------------------+------------------------------------------------------------------------------------------------------+
-| Attach Network to Node        | ``openstack esi node network attach (--network <network> | --port <port> | --trunk <trunk>) <node>`` |
-+-------------------------------+------------------------------------------------------------------------------------------------------+
++-------------+--------------------------------------------+
+|             | **Actions**                                |
++-------------+--------------------------------------------+
+| Manage Node | ``openstack baremetal node manage <node>`` |
++-------------+--------------------------------------------+
+
+Next, mark the node as ``active`` with the `adopt` command. This is required for the subsequent networking action.
+
++------------+-------------------------------------------+
+|            | **Actions**                               |
++------------+-------------------------------------------+
+| Adopt Node | ``openstack baremetal node adopt <node>`` |
++------------+-------------------------------------------+
+
+If you would like the node to pxe boot, set the boot device:
+
++----------------------+------------------------------------------------------------------------+
+|                      | **Actions**                                                            |
++----------------------+------------------------------------------------------------------------+
+| Set Node Boot Device | ``openstack baremetal node boot device set <node> pxe (--persistent)`` |
++----------------------+------------------------------------------------------------------------+
+
+Now simply attach the node to the appropriate network. You can do so through OpenStack Neutron and Ironic CLI commands, or through `python-esiclient`_:
+
++------------------------+------------------------------------------------------------------------------------------------------+
+|                        | **Actions**                                                                                          |
++------------------------+------------------------------------------------------------------------------------------------------+
+| Attach Network to Node | ``openstack esi node network attach (--network <network> | --port <port> | --trunk <trunk>) <node>`` |
++------------------------+------------------------------------------------------------------------------------------------------+
+
+Finally, power the node on:
+
++---------------+----------------------------------------------+
+|               | **Actions**                                  |
++---------------+----------------------------------------------+
+| Power Node On | ``openstack baremetal node power on <node>`` |
++---------------+----------------------------------------------+
+
 
 Serial Console Access
 ---------------------
@@ -302,16 +335,16 @@ Boot Node from Volume
 | Boot Node from Volume | ``openstack esi node volume attach (--network <network> | --port <port>) <node> <volume>`` |
 +-----------------------+--------------------------------------------------------------------------------------------+
 
-Boot Node from Disk
-~~~~~~~~~~~~~~~~~~~~~
+Set Node Boot Device
+~~~~~~~~~~~~~~~~~~~~
 
-+-----------------------+--------------------------------------------------------------------------------------------+
-|                       | **Actions**                                                                                |
-+-----------------------+--------------------------------------------------------------------------------------------+
-| Boot Node from Disk   | ``openstack baremetal node boot device set <node> disk (--persistent)``                    |
-+-----------------------+--------------------------------------------------------------------------------------------+
++----------------------+-----------------------------------------------------------------------------------------------------+
+|                      | **Actions**                                                                                         |
++----------------------+-----------------------------------------------------------------------------------------------------+
+| Set Node Boot Device | ``openstack baremetal node boot device set <node> bios|cdrom|disk|pxe|safe|wanboot (--persistent)`` |
++----------------------+-----------------------------------------------------------------------------------------------------+
 
-If not adding ``--persistent``, the node will only boot from device once. Conversely, ``--persistent`` makes changes persistent for all future boots until the node is cleaned.
+If the ``--persistent`` flag is not used, the node will only boot from the specified device once. If the ``--persistent`` flag is used, the node will boot from the specified device until the node is cleaned.
 
 Trunk Ports
 ~~~~~~~~~~~
