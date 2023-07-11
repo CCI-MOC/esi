@@ -21,6 +21,13 @@ The created network will automatically have an assigned VLAN. This network can t
 
     openstack esi node network attach --network <network name> <node>
 
+Note that a node must be active in order for this network configuration to be reflected upon the switch. OpenStack provisioning tools will often do this for you, but if you wish to use your own provisioning tools then run the following:
+
+  .. prompt:: bash $
+
+    openstack baremetal node manage <node>
+    openstack baremetal node adopt <node>
+
 In order for the lessee to access a node on a private network, they can use of the following options:
 
 * Contact the ESI administrator to connect the VLAN to an accessible node or VM outside of ESI
