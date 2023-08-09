@@ -75,7 +75,7 @@ Deploy
   .. prompt:: bash $
 
     openstack esi node network list    # find names of ports attached to nodes
-    openstack esi node network detach <node> <port>
+    openstack esi node network detach --port <port> <node>
     openstack esi node network attach --network <private network> <node>
     openstack baremetal node boot device set <node> disk --persistent
 
@@ -136,7 +136,7 @@ Add Hosts
   .. prompt:: bash $
 
     openstack esi node network list    # find names of ports attached to nodes
-    openstack esi node network detach <node> <port>
+    openstack esi node network detach --port <port> <node>
     openstack esi node network attach --network <private network> <node>
     openstack baremetal node boot device set <node> disk --persistent
 

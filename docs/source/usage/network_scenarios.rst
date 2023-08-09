@@ -98,7 +98,7 @@ If you do not need access to a private network, you can simply attach the extern
 
   .. prompt:: bash $
 
-    openstack esi node network detach <node> <port>
+    openstack esi node network detach --port <port> <node>
     openstack esi node network attach --network <external name> <node>
 
 
