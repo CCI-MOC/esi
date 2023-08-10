@@ -304,6 +304,31 @@ Additional ESI CLI Actions
 
 `python-esiclient`_ and `python-esileapclient`_ provide additional commands that combine multiple OpenStack CLI functions into a single action.
 
+Switch Information
+~~~~~~~~~~~~~~~~~~
+
++-------------------------------+-----------------------------------------------------------------------------+
+|                               | **Actions**                                                                 |
++-------------------------------+-----------------------------------------------------------------------------+
+| List Switches                 | ``openstack esi switch list``                                               |
++-------------------------------+-----------------------------------------------------------------------------+
+| List Switch Ports             | ``openstack esi switch port list <switch>``                                 |
++-------------------------------+-----------------------------------------------------------------------------+
+| List Switch VLANs             | ``openstack esi switch vlan list <switch>``                                 |
++-------------------------------+-----------------------------------------------------------------------------+
+| Add VLAN to Switch Trunk      | ``openstack esi switch trunk add vlan <switch> <switchport> <vlan_id>``     |
++-------------------------------+-----------------------------------------------------------------------------+
+| Remove VLAN from Switch Trunk | ``openstack esi switch trunk remove vlan <switch> <switchport> <vlan_id>``  |
++-------------------------------+-----------------------------------------------------------------------------+
+| Enable Switch Port Trunk      | ``openstack esi switch port enable trunk <switch> <switchport> <vlan_id>``  |
++-------------------------------+-----------------------------------------------------------------------------+
+| Disable Switch Port Trunk     | ``openstack esi switch port disable trunk <switch> <switchport>``           |
++-------------------------------+-----------------------------------------------------------------------------+
+| Enable Switch Port Access     | ``openstack esi switch port enable access <switch> <switchport> <vlan_id>`` |
++-------------------------------+-----------------------------------------------------------------------------+
+| Disable Switch Port Access    | ``openstack esi switch port disable access <switch> <switchport>``          |
++-------------------------------+-----------------------------------------------------------------------------+
+
 Node/Lease Information
 ~~~~~~~~~~~~~~~~~~~~~~
 
