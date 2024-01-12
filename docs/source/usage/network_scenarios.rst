@@ -71,7 +71,7 @@ Floating IPs
 
 The use of floating IPs requires the following:
 
-* ESI's controllers must be configured to be able to access the private network's VLAN. This may require a lessee to submit a configuration request to an ESI administrator.
+* The private network's VLAN must be configured as a tagged network on the switch port for each controller.
 * An OpenStack router must be configured as described above.
 
 Once these requirements are in place, you can create a floating IP and associate it with a provisioned node's Neutron port (which can be found by running ``openstack esi node network list``):
