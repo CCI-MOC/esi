@@ -21,6 +21,6 @@ The recommended way to allow external network access to a baremetal node is by `
               --dhcp \
               subnet-external
 
-Doing so allows ESI users to work with external networks the same way that they do with any other VLAN network. Note that all VLANs on the controller nodes should be configured to access the same NIC.
+Doing so allows ESI users to work with external networks the same way that they do with any other VLAN network.
 
 .. _creating a shared external provider network: https://docs.openstack.org/install-guide/launch-instance-networks-provider.html
