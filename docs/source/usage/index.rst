@@ -41,6 +41,7 @@ General Information
    new_user_guide
    lease_management
    network_scenarios
+   cluster
    openshift
    keylime
    cli
