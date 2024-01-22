@@ -57,7 +57,10 @@ Your ESI installation may have networks available for use. However you may also 
 Configuring and Deploying Your Nodes
 ------------------------------------
 
-A node in the **available** state can be configured and deployed. There are multiple options for doing so, some of which are detailed in the `documentation for provisioning a node`_.
+A node in the **available** state can be configured and deployed. There are multiple options for doing so:
+
+* To provision individual nodes, use the instructions detailed in `documentation for provisioning a node`_.
+* To provision a cluster all at once, use the instructions detailed in `documentation for provisioning a cluster`_.
 
 Accessing Your Nodes
 --------------------
@@ -90,6 +93,7 @@ If you have suggestions for improving this guide, please `contact us`_!
 
 .. _documentation regarding private networks: network_scenarios.html#private-networks
 .. _documentation for provisioning a node: cli.html#provisioning-a-node
+.. _documentation for provisioning a cluster: cluster.html
 .. _detailed in the ESI documentation: index.html#general-information
 .. _OpenStack Ironic documentation: https://docs.openstack.org/ironic/latest/
 .. _network scenarios documentation: network_scenarios.html

@@ -348,7 +348,7 @@ Node/Network Management
 +-------------------------------+------------------------------------------------------------------------------------------------------+
 | Attach Network to Node        | ``openstack esi node network attach (--network <network> | --port <port> | --trunk <trunk>) <node>`` |
 +-------------------------------+------------------------------------------------------------------------------------------------------+
-| Detach Network from Node      | ``openstack esi node network detach --port <port> <node>``                                                  |
+| Detach Network from Node      | ``openstack esi node network detach --port <port> <node>``                                           |
 +-------------------------------+------------------------------------------------------------------------------------------------------+
 
 Boot Node from Volume
