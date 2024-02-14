@@ -24,7 +24,7 @@ Create an Application Credential
 2. Select the project for which you want to create an application credential from the dropdown menu.
 3. In the sidebar, navigate to **Identity > Application Credentials**.
 4. Click the **Create Application Credential** button.
-5. Provide a name for your credential; all other fields are optional.
+5. Provide a name for your credential and select all available roles. All other fields are optional.
 6. After creation, you will be prompted to download an RC file or a clouds.yaml file. Download the file and use it to run OpenStack command-line clients. You can find more information about OpenStack Client usage `here`_.
 
 .. _here: https://docs.openstack.org/python-openstackclient/latest/configuration/index.html
