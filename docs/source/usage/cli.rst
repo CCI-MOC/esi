@@ -78,6 +78,16 @@ Users can view available offers and claim an offer to create a lease.
 | Delete Lease | ``openstack esi lease delete <lease_uuid>``                                                |
 +--------------+--------------------------------------------------------------------------------------------+
 
+**Admin Actions**
+
+Admins can update the end time of a lease.
+
++--------------+-----------------------------------------------------------------------+
+|              | **Admin Actions**                                                     |
++--------------+-----------------------------------------------------------------------+
+| Update Lease | ``openstack esi lease update --end-time <new_end_time> <lease_uuid>`` |
++--------------+-----------------------------------------------------------------------+
+
 Subleases
 ~~~~~~~~~
 
