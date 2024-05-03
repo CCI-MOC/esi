@@ -52,7 +52,7 @@ There are also transitionary states that indicate a node is in the process of mo
 Configuring Your Networks
 -------------------------
 
-Your ESI installation may have networks available for use. However you may also want to configure private networks, accessible only by your project. For details on the options available, read the `documentation regarding private networks`_ and talk to your ESI operator.
+Your ESI installation may have networks available for use; for example, the `provisioning` network will often already be created by the operator. However you may also want to configure private networks, accessible only by your project. For details on the options available, read the `documentation regarding private networks`_ and talk to your ESI operator.
 
 Configuring and Deploying Your Nodes
 ------------------------------------

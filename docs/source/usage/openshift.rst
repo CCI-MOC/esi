@@ -14,7 +14,8 @@ Prerequisites
 
 * Access to the OpenShift Assisted Installer
    * You may use https://console.redhat.com or a local installation of the OpenShift Assisted Installer
-* `Access to an external network`_.
+* Access to Ironic's provisioning network (this will likely already exist with the name `provisioning`)
+* `Access to an external network`_
 * A `private network`_ with an `OpenStack router`_ for external network access and floating IP capabilities and a `private DNS server`_ for your private network
 * Usage of ESI-managed nodes in the 'available' state
 
