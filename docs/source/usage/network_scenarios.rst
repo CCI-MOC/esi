@@ -74,22 +74,38 @@ The use of floating IPs requires the following:
 * The private network's VLAN must be configured as a tagged network on the switch port for each controller.
 * An OpenStack router must be configured as described above.
 
-Once these requirements are in place, you can create a floating IP and associate it with a provisioned node's Neutron port (which can be found by running ``openstack esi node network list``):
+Once these requirements are in place, you can create a floating IP:
 
   .. prompt:: bash $
 
     openstack floating ip create <external network>
-    openstack floating ip set --port <port> <external floating ip>
 
-If your private network has an alternative mechanism for assigning IPs, you can still assign an external floating IP by manually creating a Neutron port:
+Next, associate it with a provisioned node's Neutron port (which can be found by running ``openstack esi node network list``). You can do so
+indiscriminately, allowing all network traffic to be forwarded through the floating IP:
 
   .. prompt:: bash $
 
-    openstack floating ip create external
+    openstack floating ip set --port <port> <external floating ip>
+
+Alternatively, you can constrain the forwarding to specific ports; for example, the following limits access to SSH:
+
+  .. prompt:: bash $
+
+    openstack floating ip port forwarding create \
+      --port <port> \
+      --internal-protocol-port 22 \
+      --external-protocol-port 22 \
+      --internal-ip-address <private fixed ip>  \
+      --protocol tcp <external floating ip>
+
+
+If your private network has an alternative mechanism for assigning IPs, you can manually creating a Neutron port associated with that IP before assigning a floating IP:
+
+  .. prompt:: bash $
+
     openstack port create --network <private network> \
                           --fixed-ip subnet=<private subnet>,ip-address=<private ip address> \
                           <port name>
-    openstack floating ip set --port <port name> <allocated external floating IP>
 
 Direct Connection
 ~~~~~~~~~~~~~~~~~
