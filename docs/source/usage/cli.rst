@@ -308,6 +308,24 @@ If ``console_enabled`` is ``true``, we can access the serial console using follo
 If ``console_enabled`` is ``false`` or ``console_info`` is ``None`` then
 the serial console is disabled. Note, there can only be one ipmi connection to the node, meaning only one user may access the console at a time.
 
+Rescue Mode
+-----------
+
+A node can be booted in rescue mode, potentially allowing for some form of remediation if some aspect of the node fails. Doing so puts the node
+on the rescue network temporarily to allow the rescue image to boot; then the node is returned to its original network configuration. If the node
+has an external floating IP attached, you can then access the node by running ``ssh rescue@<floating-ip>`` and using the password specified in
+the rescue command. For that reason, please specify a strong password.
+
+Nodes should only be put into rescue mode temporarily. When you are finished, it is *highly* recommended that you unrescue the node for security purposes.
+
++---------------+-------------------------------------------------------------------------+
+|               | **Actions**                                                             |
++---------------+-------------------------------------------------------------------------+
+| Rescue Node   | ``openstack baremetal node rescue <node> --rescue-password <password>`` |
++---------------+-------------------------------------------------------------------------+
+| Unrescue Node | ``openstack baremetal node unrescue <node>``                            |
++---------------+-------------------------------------------------------------------------+
+
 
 Additional ESI CLI Actions
 --------------------------
