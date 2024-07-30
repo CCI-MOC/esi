@@ -9,6 +9,11 @@ Developers
       * `python-esileapclient`_
    * `python-esiclient`_
 
+.. toctree::
+   :maxdepth: 2
+
+   esi-with-devstack
+
 Visit the `ESI task board`_ to see what we're working on right now!
 
 .. _Ironic: https://docs.openstack.org/ironic/latest/
