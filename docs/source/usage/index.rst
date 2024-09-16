@@ -43,6 +43,7 @@ General Information
    network_scenarios
    cluster
    openshift
+   rhelai
    keylime
    cli
    automated_workflows
