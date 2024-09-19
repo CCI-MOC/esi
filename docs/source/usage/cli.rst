@@ -269,10 +269,11 @@ In order to access a node using a serial console, the admin or owner must config
 Instructions for this can be found under `Configuring Web or Serial Console`_ in Ironic's documentation.
 Once the node is properly configured, the console can be enabled and disabled as needed.
 
-Following is the pre-requisite for functioning of serial console:
+The following are prerequisites:
 
-* The ``ipmi_terminal_port`` port must be unique and only the admin or node owner can set this value.
-* The admin must open the firewall on the controller to allow TCP connections on the port.
+* The ``ipmi_terminal_port`` port must be unique. Only the admin or node owner can set this value.
+* The admin must open the firewall on the controller to allow TCP connections on the port. The exact configuration depends on the desired access method.
+* The serial console must be enabled:
 
 +-----------------+-----------------------------------------------------+
 |                 | **Actions**                                         |
@@ -282,8 +283,14 @@ Following is the pre-requisite for functioning of serial console:
 | Disable Console | ``openstack baremetal node console disable <node>`` |
 +-----------------+-----------------------------------------------------+
 
-Serial console information is available from the Bare Metal service. Get
-serial console information for a node from the Bare Metal service as follows:
+* Only one user may access the console at a time.
+
+Default Access
+~~~~~~~~~~~~~~
+
+Default access requires the firewall to allow access to the IPMI port from anywhere. This can be *very* dangerous.
+
+After the console is enabled, run the following:
 
 +---------------------------+--------------------------------------------------+
 |                           | **Actions**                                      |
@@ -291,7 +298,7 @@ serial console information for a node from the Bare Metal service as follows:
 | Show Console Information  | ``openstack baremetal node console show <node>`` |
 +---------------------------+--------------------------------------------------+
 
-``openstack baremetal node console show <node>`` will generate the following output:
+This command will generate the following output:
 
 +-----------------+----------------------------------------------------------------------+
 | Property        | Value                                                                |
@@ -301,12 +308,51 @@ serial console information for a node from the Bare Metal service as follows:
 | console_info    | {u'url': u'``tcp://<host>:<port>``', u'type': u'socat'}              |
 +-----------------+----------------------------------------------------------------------+
 
-If ``console_enabled`` is ``true``, we can access the serial console using following command:
+You can now access the serial console with the following command:
 
 ``socat - tcp:<host>:<port>``
 
-If ``console_enabled`` is ``false`` or ``console_info`` is ``None`` then
-the serial console is disabled. Note, there can only be one ipmi connection to the node, meaning only one user may access the console at a time.
+Note that this console is publicly accessible; for that reason, please disable the console once you are finished with it.
+
+ESI Serial Console Proxy Access
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If the ESI serial console proxy service is running, then you can use an alternative token-based method of accessing the serial console.
+Only the controller running the serial console proxy service needs access to the IPMI port, making this method far more secure.
+
+After the console is enabled, run the following:
+
++----------------------+----------------------------------------------------+
+|                      | **Actions**                                        |
++----------------------+----------------------------------------------------+
+| Create Console Token | ``openstack esi console auth token create <node>`` |
++----------------------+----------------------------------------------------+
+
+This command will generate the following output:
+
++------------+--------------------------------------------------------------------+
+| Field      | Value                                                              |
++------------+--------------------------------------------------------------------+
+| access_url | ws://<serial_console_proxy_url>/?token=<token>                     |
++------------+--------------------------------------------------------------------+
+| node_uuid  | <node_uuid>                                                        |
++------------+--------------------------------------------------------------------+
+| token      | <token>                                                            |
++------------+--------------------------------------------------------------------+
+
+You can now connect to the console using `websocat`_ by running the following command:
+
+``websocat -b <access_url>``
+
+To delete the token, run the following:
+
++----------------------+----------------------------------------------------+
+|                      | **Actions**                                        |
++----------------------+----------------------------------------------------+
+| Delete Console Token | ``openstack esi console auth token delete <node>`` |
++----------------------+----------------------------------------------------+
+
+This will disable token access to the serial console proxy. However, it is still recommended that you disable the console.
 
 Rescue Mode
 -----------
@@ -420,6 +466,7 @@ Trunk Ports
 .. _ESI Leap: https://github.com/CCI-MOC/esi-leap
 .. _Metalsmith: https://docs.openstack.org/metalsmith/latest/
 .. _Ironic boot-from-volume documentation: https://docs.openstack.org/ironic/latest/admin/boot-from-volume.html
+.. _websocat: https://pypi.org/project/websocat/
 .. _python-esiclient: https://github.com/CCI-MOC/python-esiclient
 .. _python-esileapclient: https://github.com/CCI-MOC/python-esileapclient
 .. _Configuring Web or Serial Console: https://docs.openstack.org/ironic/latest/admin/console.html
