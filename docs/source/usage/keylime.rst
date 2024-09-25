@@ -21,7 +21,7 @@ Provision the Node
 ^^^^^^^^^^^^^^^^^^
 .. prompt:: bash $
 
-  metalsmith deploy --image <image> --network <attestation_network> --resource-class baremetal --candidate <node id> --ssh-public-key <path_to_public_key>
+  metalsmith deploy --image <image> --network <attestation_network> --resource-class <resource_class> --candidate <node id> --ssh-public-key <path_to_public_key>
 
 Install Keylime Packages
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -127,7 +127,7 @@ Provision the Node-to-be-attested
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. prompt:: bash $
 
-  metalsmith deploy --image keylime-image --network <attestation_network> --resource-class baremetal --candidate <node id> --ssh-public-key <path_to_public_key>
+  metalsmith deploy --image keylime-image --network <attestation_network> --resource-class <resource_class> --candidate <node id> --ssh-public-key <path_to_public_key>
 
 If using the keylime-image built with diskimage-builder, keylime-agent will start as a system service at boot time, generate its UUID, and register itself with the registrar service. Check the keylime-agent log to get agent UUID.
 
