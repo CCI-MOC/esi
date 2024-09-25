@@ -47,7 +47,7 @@ A sample cluster configuration file is provided here:
 	  {
 	      "nodes": {
 		  "num_nodes": "2",
-		  "resource_class": "baremetal"
+		  "resource_class": "node-resource-class"
 	      },
 	      "network": {
 		  "network_uuid": "private-network-1"
@@ -80,7 +80,7 @@ Or look for a given number of nodes of a specific resource class:
 
   "nodes": {
      "num_nodes": 2,
-     "resource_class": "baremetal"
+     "resource_class": "node-resource-class"
   }
 
 If the requested nodes cannot be found, the orchestration command will throw an error.
