@@ -159,7 +159,7 @@ Using the python-esiclient CLI
 Configure Access to the Assisted Installer API
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The python-esiclient CLI commands requires the user to access the Assisted Installer API. In order to do so, the user must `follow the steps in the Assisted Installer API documentation`_ which detail how to create a ``refresh-token`` script and how to export a ``PULL_SECRET`` to your environment.
+The python-esiclient CLI commands requires the user to access the Assisted Installer API. In order to do so, the user must `follow the steps in the Assisted Installer API documentation`_ which detail how to export a ``API_TOKEN``, a ``OFFLINE_TOKEN``, and a ``PULL_SECRET`` to your environment.
 
 Create a Cluster Configuration File
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -191,17 +191,9 @@ Orchestrate the Cluster
 | Orchestrate Cluster | ``openstack esi openshift orchestrate <path-to-cluster-config-file>`` |
 +---------------------+-----------------------------------------------------------------------+
 
-Once the cluster config file is created, run ``refresh-token`` and then ``openstack esi openshift orchestrate`` to start the orchestration of the OpenShift cluster.
+Once the cluster config file is created, ``openstack esi openshift orchestrate`` to start the orchestration of the OpenShift cluster.
 
-Installation will take roughly an hour, and involves constant calls to the Assisted Installer API. However, the token from ``refresh-token`` will expire after 15 minutes. When this happens, the orchestration command will fail. Fortunately, it will do so while providing a command to continue installation:
-
-.. prompt::
-
-  * YOU MAY NEED TO REFRESH YOUR OPENSHIFT API TOKEN
-  Run this command to continue installation:
-  openstack esi orchestrate openshift --cluster-id the-generated-cluster-id --infra-env-id the-generated-infra-env-id
-
-If you see this message, simply run ``refresh-token`` again and then copy and paste the specified command.
+Installation will take roughly an hour, and involves constant calls to the Assisted Installer API. The CLI will output the status of the cluster as it progresses.
 
 Undeploy the Cluster
 ~~~~~~~~~~~~~~~~~~~~
