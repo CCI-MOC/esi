@@ -191,7 +191,7 @@ Orchestrate the Cluster
 | Orchestrate Cluster | ``openstack esi openshift orchestrate <path-to-cluster-config-file>`` |
 +---------------------+-----------------------------------------------------------------------+
 
-Once the cluster config file is created, ``openstack esi openshift orchestrate`` to start the orchestration of the OpenShift cluster.
+Once the cluster config file is created, run ``openstack esi openshift orchestrate`` to start the orchestration of the OpenShift cluster.
 
 Installation will take roughly an hour, and involves constant calls to the Assisted Installer API. The CLI will output the status of the cluster as it progresses.
 
