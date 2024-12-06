@@ -25,7 +25,7 @@ The Ironic provisioning network must also be able to reach the Assisted Installe
 
     openstack router create provisioning-router
     openstack router set --external-gateway <external network> provisioning-router
-    openstack router add subnet external-router <provisioning subnet>
+    openstack router add subnet provisioning-router <provisioning subnet>
 
 Using the Assisted Installer Web UI
 -----------------------------------
