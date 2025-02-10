@@ -12,7 +12,7 @@ If a lessee wishes to use a private network, they can run the following commands
 
   .. prompt:: bash $
 
-    openstack network create <network name>
+    openstack network create --mtu 1500 <network name>
     openstack subnet create --subnet-range <subnet range> --allocation-pool start=<allocation start>,end=<allocation end> --network <network name> <subnet name>
 
 The created network will automatically have an assigned VLAN. This network can then be attached to a node as follows:

@@ -9,7 +9,7 @@ The recommended way to allow external network access to a baremetal node is by `
               --provider-network-type vlan \
               --provider-segment <vlan id> \
               --provider-physical-network datacentre \
-              --external --share \
+              --external --share --mtu 1500 \
               external
     openstack subnet create \
               --network external \
