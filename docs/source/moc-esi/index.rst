@@ -61,6 +61,10 @@ Using Nodes
 -----------
 Please consult the `New User Guide`_ section for more information on how to configure, provision and access your leased nodes.
 
+Node Naming Convention
+----------------------
+Node names indicate their physical location at the MGHPCC. For example, ``MOC-R4PAC21U25-S1`` is in Row 4, Pod A, Cabinet 21, Unit 25, Slot 1.
+
 Contact
 -------
 If you have any questions about ESI functionality, the specifications of the nodes, or anything else, please contact us in the ``#esi`` channel within the MOC Alliance Slack.
